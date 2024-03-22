@@ -51,7 +51,7 @@ function init() {
     scene.fog = new THREE.FogExp2(0x83bdff, 0.002);
     renderer.setClearColor(scene.fog.color);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true
+    //renderer.shadowMap.enabled = true
     document.body.appendChild(renderer.domElement);
 
     labelRenderer = new CSS2DRenderer()
@@ -123,8 +123,8 @@ function init() {
         const geometry = new THREE.PlaneGeometry(30, 30);
         const material = new THREE.MeshPhongMaterial({ map: placeholder})
         const floor = new THREE.Mesh(geometry, material)
-        floor.castShadow = true;
-        floor.receiveShadow = true;
+        //floor.castShadow = true;
+        //floor.receiveShadow = true;
         floor.rotation.x = - Math.PI / 2
         floor.position.set(0,0,-5)
         scene.add(floor)
@@ -137,8 +137,8 @@ function init() {
         const geometry = new THREE.PlaneGeometry(largura, espessura);
         const material = new THREE.MeshPhongMaterial({ map: placeholder,transparent: true,})
         const floor = new THREE.Mesh(geometry, material)
-        floor.castShadow = true;
-        floor.receiveShadow = true;
+        //floor.castShadow = true;
+        //floor.receiveShadow = true;
         floor.rotation.x = - Math.PI / 2
         floor.rotation.z = rotacao
         floor.position.set(x,y,z)
@@ -223,9 +223,9 @@ function init() {
     loader.load('personagem.glb', function (glft) {
         const model = glft.scene
         model.scale.set(0.25, 0.25, 0.25)
-        model.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
+        //model.traverse(function (object) {
+        //    if (object.isMesh) object.castShadow = true;
+        //});
         scene.add(model)
         const gltfAnimations = glft.animations
         const mixer = new THREE.AnimationMixer(model)
@@ -303,9 +303,9 @@ function init() {
         shop.scale.set(1, 1, 1)
         shop.rotation.y = -0.8
         shop.position.set(-8, 0, -13)
-        shop.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
+        //shop.traverse(function (object) {
+         //   if (object.isMesh) object.castShadow = true;
+        //});
         scene.add(shop)
     })
 
@@ -316,9 +316,9 @@ function init() {
         shopVegetal.scale.set(0.8, 0.8, 0.8)
         shopVegetal.rotation.y = -1.5
         shopVegetal.position.set(7, 0.1, -14)
-        shopVegetal.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
+        //shopVegetal.traverse(function (object) {
+        //    if (object.isMesh) object.castShadow = true;
+        //});
         scene.add(shopVegetal)
     })
 
@@ -328,9 +328,9 @@ function init() {
         fogueira.add(glft.scene)
         fogueira.scale.set(1, 1, 1)
         fogueira.position.set(9, 1, -5)
-        fogueira.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
+        //fogueira.traverse(function (object) {
+         //   if (object.isMesh) object.castShadow = true;
+        //});
         scene.add(fogueira)
     })
 
@@ -341,9 +341,9 @@ function init() {
         cozinheiro.scale.set(0.0012, 0.0012, 0.0012)
         cozinheiro.rotation.y = -1
         cozinheiro.position.set(9, 0, -3)
-        cozinheiro.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
+        //cozinheiro.traverse(function (object) {
+         //   if (object.isMesh) object.castShadow = true;
+        //});
 
         mixerCozinheiro = new THREE.AnimationMixer(cozinheiro);
         glft.animations.forEach((clip) => {
@@ -360,9 +360,9 @@ function init() {
         galinha.scale.set(0.0004, 0.0004, 0.0004)
         galinha.rotation.y = 1.5
         galinha.position.set(-9, 0, -8)
-        galinha.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
+        //galinha.traverse(function (object) {
+        //    if (object.isMesh) object.castShadow = true;
+        //});
 
         mixergalinha = new THREE.AnimationMixer(galinha);
         glft.animations.forEach((clip) => {
@@ -388,9 +388,9 @@ function init() {
         lenha.scale.set(3, 3, 3)
         lenha.position.set(0, 0, -14.2)
         lenha.rotation.y = 1.5
-        lenha.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
+        //lenha.traverse(function (object) {
+        //    if (object.isMesh) object.castShadow = true;
+        //});
         scene.add(lenha)
     })
 
@@ -421,9 +421,9 @@ function init() {
         casa.scale.set(2.8, 2.8, 2.8)
         casa.position.set(-7.5, 0, 1.4)
         casa.rotation.y = 1.6
-        casa.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
+        //casa.traverse(function (object) {
+         //   if (object.isMesh) object.castShadow = true;
+        //});
         scene.add(casa)
     })
 
@@ -493,15 +493,15 @@ function init() {
     var luzAmbientedia = new THREE.AmbientLight(0xffffff, 0.7)
     const dirLight = new THREE.DirectionalLight(0xfcffd6, 1)
     dirLight.position.set(50, 30, -50);
-    dirLight.castShadow = true;
-    dirLight.shadow.camera.top = 50;
-    dirLight.shadow.camera.bottom = - 50;
-    dirLight.shadow.camera.left = - 50;
-    dirLight.shadow.camera.right = 50;
-    dirLight.shadow.camera.near = 0.1;
-    dirLight.shadow.camera.far = 200;
-    dirLight.shadow.mapSize.width = 4096;
-    dirLight.shadow.mapSize.height = 4096;
+    //dirLight.castShadow = true;
+    //dirLight.shadow.camera.top = 50;
+    //dirLight.shadow.camera.bottom = - 50;
+    //dirLight.shadow.camera.left = - 50;
+    //dirLight.shadow.camera.right = 50;
+    //dirLight.shadow.camera.near = 0.1;
+    //dirLight.shadow.camera.far = 200;
+    //dirLight.shadow.mapSize.width = 4096;
+    //dirLight.shadow.mapSize.height = 4096;
     scene.add(dirLight);
     scene.add(luzAmbientedia)
     // scene.add( new THREE.CameraHelper(dirLight.shadow.camera))
@@ -509,15 +509,15 @@ function init() {
     var LuzAmbienteNoite = new THREE.AmbientLight(0x929292, 1)
     const dirLight2 = new THREE.DirectionalLight(0xaff3ff, 1)
     dirLight2.position.set(50, 30, -100);
-    dirLight2.castShadow = true;
-    dirLight2.shadow.camera.top = 50;
-    dirLight2.shadow.camera.bottom = - 50;
-    dirLight2.shadow.camera.left = - 50;
-    dirLight2.shadow.camera.right = 50;
-    dirLight2.shadow.camera.near = 0.1;
-    dirLight2.shadow.camera.far = 200;
-    dirLight2.shadow.mapSize.width = 4096;
-    dirLight2.shadow.mapSize.height = 4096;
+    //dirLight2.castShadow = true;
+    //dirLight2.shadow.camera.top = 50;
+    //dirLight2.shadow.camera.bottom = - 50;
+    //dirLight2.shadow.camera.left = - 50;
+    //dirLight2.shadow.camera.right = 50;
+    //dirLight2.shadow.camera.near = 0.1;
+    //dirLight2.shadow.camera.far = 200;
+    //dirLight2.shadow.mapSize.width = 4096;
+    //dirLight2.shadow.mapSize.height = 4096;
 
     //pontos de luzes
     const flash = new THREE.PointLight(0xfcfc72, 30, 10, 2);
