@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anta&family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: none;
+    font-family: "Anta", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100dvh;
+    z-index: -1;
+}
+
+body{
+    overflow: hidden;
+    background: #11111f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#paraTrilha{
+    display: none;
+    position: fixed;
+    right: 30px;
+    top: 30px;
+    color: white;
+    background: transparent;
+    font-size: 40px;
+    border: none;
+    cursor: pointer;
+}
+
+#ativarTrilha {
+    position: fixed;
+    right: 30px;
+    top: 30px;
+    color: white;
+    background: transparent;
+    font-size: 40px;
+    border: none;
+    cursor: pointer;
+}
+
+#preloader {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #242424;
+    z-index: 99999;
+}
+
+.loader .title {
+    color: white;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: lighter;
+    text-align: center;
+    font-family: arial;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+
+/*Loader Pin*/
+.loader-pin {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin-bottom: 40px;
+    box-sizing: border-box;
+    position: relative;
+    margin-left: 25px;
+}
+
+.loader-pin::after {
+    content: '';
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    border-radius: 50% 50% 0;
+    border: 12px solid #d91616;
+    background-color: #b50000;
+    transform: rotate(45deg) translate(0, 0);
+    box-sizing: border-box;
+    animation: animMarker 0.4s ease-in-out infinite alternate;
+}
+
+.loader-pin::before {
+
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 150%;
+    width: 24px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    animation: animShadow 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes animMarker {
+    0% {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    100% {
+        transform: rotate(45deg) translate(-5px, -5px);
+    }
+}
+
+@keyframes animShadow {
+    0% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+#joystick {
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    bottom: 20px;
+    left: 20px;
+    width: 100px;
+    height: 100px;
+    background-color: #ffffff7e;
+    backdrop-filter: blur(30px);
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+#stick {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #666666;
+    border-radius: 50%;
+    transform: translate(0, 0);
+    transition: transform 0.1s ease-out;
+}
+
+@media(max-width: 900px) {
+    #joystick {
+        display: flex;
+    }
+}
+
+#dia, #noite{
+    pointer-events: all;
+    background: black;
+    cursor: pointer;
+    color: #929292;
+}
+
+.blink {
+    pointer-events: none;
+    width: 100%;
+    height: 100vh;
+    background-color: #000000;
+    position: absolute;
+    top: 0;
+    z-index: 9999;
+    animation: blinkAnimation 2s linear;
+    display: none;
+    color: #aff3ff;
+}
+
+@keyframes blinkAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 1;
+    }
+
+    40% {
+        opacity: 1;
+    }
+
+    100%{
+        opacity: 0;
+    }
+
+}
+
+.balao {
+    display: none;
+    position: relative;
+    background-color: #add8e6;
+    border-radius: 10px;
+    padding: 15px;
+    max-width: 300px;
+    margin: 20px;
+    box-shadow: 10px 10px 10px #0000006e;
+}
+
+.balao::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #add8e6 transparent transparent transparent;
+}
+
+.balao p{
+    color: #242424;
+}
