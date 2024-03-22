@@ -678,7 +678,7 @@ function init() {
     const geometry = new THREE.PlaneGeometry( 0.01, 0.2, 1);
     geometry.translate( 0, 0.01, 0 );
     const instancedMesh = new THREE.InstancedMesh( geometry, leavesMaterial, instanceNumber );
-    scene.add( instancedMesh );
+    //scene.add( instancedMesh );
 
     //colocando elas em lugares aleatorios
     for ( let i=0 ; i<instanceNumber ; i++ ) {
