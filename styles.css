@@ -11,6 +11,10 @@
     font-style: normal;
 }
 
+::-webkit-scrollbar{
+    display: none;
+}
+
 canvas {
     position: fixed;
     top: 0;
@@ -30,7 +34,7 @@ body{
 #paraTrilha{
     display: none;
     position: fixed;
-    right: 30px;
+    left: 30px;
     top: 30px;
     color: white;
     background: transparent;
@@ -41,7 +45,7 @@ body{
 
 #ativarTrilha {
     position: fixed;
-    right: 30px;
+    left: 30px;
     top: 30px;
     color: white;
     background: transparent;
@@ -175,9 +179,13 @@ body{
 
 #dia, #noite{
     pointer-events: all;
-    background: black;
+    background: #8f8f8f;
     cursor: pointer;
-    color: #929292;
+    color: #000000;
+    border-radius: 5px;
+    padding: 5px 20px;
+    border: none;
+    box-shadow: 5px 5px 10px #000000be;
 }
 
 .blink {
@@ -236,4 +244,125 @@ body{
 
 .balao p{
     color: #242424;
+}
+
+.car-shop{
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 80;
+}
+
+.iphones{
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.btnfechar{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 20px;
+}
+
+.fechar{
+    pointer-events: all;
+    color: red;
+    border: 1px solid red;
+    padding: 10px 13px;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.Comprados {
+    display: none;
+    position: fixed;
+    background: #111111;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding-bottom: 30px;
+    width: 600px;
+    z-index: 70;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: .5s;
+}
+
+.Comprados.ativo {
+    display: block;
+    animation: aparecer .5s linear;
+    pointer-events: all;
+}
+
+@keyframes aparecer{
+    0%{
+        transform: translateX(600px);
+    }
+
+    100%{
+        transform: translateX(0);
+    }
+}
+
+.totalItens{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #070707;
+    color: white;
+}
+
+.pratosProntos, .legumes, .bebidas{
+    pointer-events: all;
+    background: #000000e3;
+    backdrop-filter: blur(20px);
+    overflow-y: scroll;
+    border-radius: 10px;
+    padding: 20px;
+    display: none;
+    
+    width: 90%;
+    height: 90vh;
+}
+
+.pratosProntos.ativo, .legumes.ativo, .bebidas.ativo{
+    display: block;
+}
+
+#iphone, #ipad, #Mac{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 70px;
+}
+
+#item-card{
+   margin: 0 auto 50px;
+   color: white;
+
+}
+
+.title{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: white;
 }

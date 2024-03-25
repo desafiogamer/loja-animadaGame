@@ -37,16 +37,52 @@
 		<div id="stick"></div>
 	</div>
 
-	<section class="inicio" id="inicio">
-		
-	</section>
+	<div class="car-shop" onclick="carrinho()">
+		<i class="bi bi-basket"></i>
+		<span class="quantity" id="cart-plus">0</span>
+	</div>
 
-	<section class="about" id="about">
+	<section class="iphones" id="iphones">
 		
-	</section>
-
-	<section class="contact" id="contact">
+		<div class="pratosProntos">
+			<div class="btnfechar">
+				<button class="fechar" id="fechar1">X</button>
+			</div>
+			
+			<div class="title">
+				<h1 class="title">Pratos prontos</h1>
+			</div>
+			<div id="iphone" class="iphone"></div>
+		</div>
 		
+		<div class="bebidas">
+			<div class="btnfechar">
+				<button class="fechar" id="fechar2">X</button>
+			</div>
+			<div class="title">
+				<h1 class="title">Bebidas</h1>
+			</div>
+			<div class="ipad" id="ipad"></div>
+		</div>
+		
+		<div class="legumes">
+			<div class="btnfechar">
+				<button class="fechar" id="fechar3">X</button>
+			</div>
+			<div class="title">
+				<h1 class="title">Pratos vegetarianos</h1>
+			</div>
+			<div class="Mac" id="Mac"></div>
+		</div>
+	
+		<div class="Comprados" id="Comprados">
+			<div id="table-body"></div>
+			<div class="totalItens">
+				<p id="total-item">Total itens 0</p>
+				<p id="total-price">Preço total: 0 R$</p>
+			</div>
+			<button class="btnFinal">Finalizar</button>
+		</div>
 	</section>
 	
 	<script type="importmap">
@@ -57,5 +93,13 @@
         }
     </script>
 	<script src="./js/script.js" type="module"></script>
+	<script src="./js/lista-produtos.js" type="module"></script>
+	<script>
+		const carrin = document.querySelector('.Comprados')
+
+		function carrinho() {
+			carrin.classList.toggle('ativo')
+		}
+	</script>
 </body>
 </html>

@@ -218,6 +218,25 @@ function init() {
     scene.add(divNaCena)
     divNaCena.position.set(9, 2, -3)
 
+    //pratos prontos
+    var pratosProntos = document.querySelector('.pratosProntos')
+    var pratosLegumes = document.querySelector('.legumes')
+    var bebidas = document.querySelector('.bebidas')
+
+    var btnfechar1 = document.querySelector('#fechar1')
+    var btnfechar2 = document.querySelector('#fechar2')
+    var btnfechar3 = document.querySelector('#fechar3')
+    btnfechar1.addEventListener('click',()=>{
+        pratosProntos.classList.remove('ativo')
+    })
+    btnfechar2.addEventListener('click',()=>{
+        bebidas.classList.remove('ativo')
+    })
+    btnfechar3.addEventListener('click',()=>{
+        
+        pratosLegumes.classList.remove('ativo')
+    })
+
     //MODELOS 3D DA CENA
     var characterPreviousPosition = new THREE.Vector3();
 
@@ -259,7 +278,9 @@ function init() {
                 new THREE.Box3().setFromObject(floorParedefrontal3),
             ];
             var colisionCozinheiro = new THREE.Box3().setFromObject(cozinheiro)
-            var colisionCorreio = new THREE.Box3().setFromObject(mailBox)
+            var colisionFogueira = new THREE.Box3().setFromObject(fogueira)
+            var colisionLegumes = new THREE.Box3().setFromObject(shopVegetal)
+            var colisionBebidas = new THREE.Box3().setFromObject(shop)
 
             objectsBoundingBoxes.forEach(objectBoundingBox => {
                 if (characterBoundingBox.intersectsBox(objectBoundingBox)) {
@@ -270,8 +291,16 @@ function init() {
                     divBalao.style.display = 'block'
                 }
 
-                if (characterBoundingBox.intersectsBox(colisionCorreio)) {
-                    console.log('foi')
+                if (characterBoundingBox.intersectsBox(colisionFogueira)) {
+                    pratosProntos.classList.add('ativo')
+                }
+
+                if (characterBoundingBox.intersectsBox(colisionLegumes)) {
+                    pratosLegumes.classList.add('ativo')
+                }
+
+                if (characterBoundingBox.intersectsBox(colisionBebidas)) {
+                    bebidas.classList.add('ativo')
                 }
 
             });
