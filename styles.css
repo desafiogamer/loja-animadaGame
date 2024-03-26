@@ -519,7 +519,7 @@ body{
     left: 0;
     top: 30px;
     background:white;
-    z-index: 30;
+    z-index: 9999991;
     border-radius: 0 10px 10px 0;
 }
 
@@ -548,6 +548,7 @@ body{
     padding: 20px;
     animation: aparecerConfig .3s linear;
     margin-bottom: 20px;
+    z-index: 999999;
 }
 
 .desabilitar h3 {
@@ -582,6 +583,7 @@ body{
     padding: 20px;
     animation: aparecerConfig .3s linear;
     margin-bottom: 20px;
+    z-index: 999999;
 }
 
 .habilitar h3 {
@@ -626,6 +628,7 @@ body{
     padding: 30px 20px 20px 20px;
     border-radius: 0 10px 10px 0;
     animation: aparecerConfig .3s linear;
+    z-index: 999999;
 }
 
 .config.ativo {
