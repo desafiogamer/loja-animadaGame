@@ -7,6 +7,7 @@ import {CSS2DRenderer, CSS2DObject} from '../jsm/CSS2DRenderer.js'
 let scene,
     camera,
     renderer,
+    antialiasEnabled = true,
     characterControls,
     orbitControls,
     keysPressed,
@@ -42,7 +43,7 @@ let scene,
     
 function init() {
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 100);
+    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.z = 1;
     camera.rotation.x = 1.16;
     camera.rotation.z = 0.27;
@@ -50,7 +51,7 @@ function init() {
 
     //renderer
     renderer = new THREE.WebGLRenderer({
-        antialias: true
+        antialias: false
     });
     scene.fog = new THREE.FogExp2(0x83bdff, 0.002);
     renderer.setClearColor(scene.fog.color);
@@ -513,7 +514,7 @@ function init() {
     loader.load('the_moon.glb', function (glft) {
         lua.add(glft.scene)
         lua.scale.set(0.7, 0.7, 0.7)
-        lua.position.set(50, 30, -100)
+        lua.position.set(50, 30, -80)
         lua.rotation.y = 1.6
     })
 
@@ -608,6 +609,7 @@ function init() {
     var modoSuave = false
     var mudardisplay = document.querySelector('.display')
     mudardisplay.addEventListener('click',()=>{
+        renderer.shadowMap.enabled = false
         dirLight.castShadow = false
         dirLight2.castShadow = false
         scene.remove(flash5)
@@ -617,7 +619,13 @@ function init() {
         scene.remove(passaro)
         scene.remove( instancedMesh );
         scene.remove(dirLight);
+        scene.remove(dirLight2);
+        scene.remove(galinha);
         modoSuave = true
+        antialiasEnabled = false;
+        renderer.antialias = antialiasEnabled;
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
     })
 
     //nuvens e estrelas
