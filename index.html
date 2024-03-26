@@ -10,13 +10,12 @@
 	<title>Game | Loja</title>
 	<link rel="stylesheet" href="styles.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script>
-		$(window).load(function () {
-			$('#status').fadeOut();
-			$('#preloader').delay(350).fadeOut('slow');
-			$('body').delay(350).css({ 'overflow': 'visible' });
-		})
+		var reduzir = document.querySelector('.display')
+		window.addEventListener('load', function () {
+			document.getElementById('preloader').style.display = 'none'
+		});
+		
 	</script>
 </head>
 <body>
@@ -27,13 +26,28 @@
 			<span class="title">Carregando...</span>
 		</div>
 	</div>
+	<div class="arrumarConfig">
+		<img src="./img/engrenagem.png" alt="config">
+	</div>
+	
+	<div class="config">
+		<div class="desabilitar ativo">
+			<h3>Está travando?</h3>
+			<button id="remover" class="display">Reduzir qualidade</button>
+		</div>
+		<div class="habilitar">
+			<h3>Quer melhorar a qualidade?</h3>
+			<button id="adicionar">Melhorar qualidade</button>
+		</div>
+		<div class="som">
+			<h3>Trilha sonora</h3>
+			<button id="paraTrilha"><i class="bi bi-volume-up-fill"></i></button>
+			<button id="ativarTrilha"><i class="bi bi-volume-mute-fill"></i></button>
+		</div>
+	</div>
 
 	<div class="blink" id="screen"></div>
-
-	<button class="display"><i class="bi bi-display"></i></button>
 	
-	<button id="paraTrilha"><i class="bi bi-volume-up-fill"></i></button>
-	<button id="ativarTrilha"><i class="bi bi-volume-mute-fill"></i></button>
 
 	<div id="joystick">
 		<div id="stick"></div>
@@ -96,12 +110,6 @@
     </script>
 	<script src="./js/script.js" type="module"></script>
 	<script src="./js/lista-produtos.js" type="module"></script>
-	<script>
-		const carrin = document.querySelector('.Comprados')
-
-		function carrinho() {
-			carrin.classList.toggle('ativo')
-		}
-	</script>
+	<script src="js/abrirMenus.js"></script>
 </body>
 </html>

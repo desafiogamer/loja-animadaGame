@@ -39,19 +39,20 @@ let scene,
     floorParedefrontal1,
     floorParedefrontal2,
     floorParedefrontal3,
-    rock
+    rock,
+    mudardisplayBaixo,
+    mudardisplayAlto
     
 function init() {
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 1;
     camera.rotation.x = 1.16;
     camera.rotation.z = 0.27;
-    
 
     //renderer
     renderer = new THREE.WebGLRenderer({
-        antialias: false
+        antialias: antialiasEnabled
     });
     scene.fog = new THREE.FogExp2(0x83bdff, 0.002);
     renderer.setClearColor(scene.fog.color);
@@ -460,9 +461,7 @@ function init() {
         lenha.scale.set(3, 3, 3)
         lenha.position.set(0, 0, -14.2)
         lenha.rotation.y = 1.5
-        lenha.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
+
         scene.add(lenha)
     })
 
@@ -514,7 +513,7 @@ function init() {
     loader.load('the_moon.glb', function (glft) {
         lua.add(glft.scene)
         lua.scale.set(0.7, 0.7, 0.7)
-        lua.position.set(50, 30, -80)
+        lua.position.set(50, 30, -100)
         lua.rotation.y = 1.6
     })
 
@@ -607,8 +606,10 @@ function init() {
     flash5.position.set(-8, 0, -13);
 
     var modoSuave = false
-    var mudardisplay = document.querySelector('.display')
-    mudardisplay.addEventListener('click',()=>{
+    mudardisplayBaixo = document.querySelector('.display')
+    mudardisplayAlto = document.getElementById('adicionar')
+
+    mudardisplayBaixo.addEventListener('click',()=>{
         renderer.shadowMap.enabled = false
         dirLight.castShadow = false
         dirLight2.castShadow = false
@@ -622,10 +623,21 @@ function init() {
         scene.remove(dirLight2);
         scene.remove(galinha);
         modoSuave = true
-        antialiasEnabled = false;
+        antialiasEnabled = !antialiasEnabled;
         renderer.antialias = antialiasEnabled;
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setPixelRatio(window.devicePixelRatio);    
+    })
+
+    mudardisplayAlto.addEventListener('click',()=>{
+        renderer.shadowMap.enabled = true
+        dirLight.castShadow = true
+        dirLight2.castShadow = true
+        scene.add(passaro)
+        scene.add(instancedMesh);
+        scene.add(dirLight);
+        scene.add(galinha);
+        modoSuave = false    
     })
 
     //nuvens e estrelas
@@ -1016,6 +1028,22 @@ function animate() {
             passaro.rotation.y = -1.5
         }
     }
+
+    mudardisplayBaixo.addEventListener('click',()=>{
+        if (camera.far == 1000) {
+            camera.far -= 900;
+        } else {
+            console.log("Render distance cannot be decreased further.");
+        }
+    })
+
+    mudardisplayAlto.addEventListener('click',()=>{
+        if (camera.far == 100) {
+            camera.far += 900;
+        } else {
+            console.log("Render distance cannot be decreased further.");
+        }
+    })
     
     leavesMaterial.uniforms.time.value = clock.getElapsedTime();
     leavesMaterial.uniformsNeedUpdate = true;

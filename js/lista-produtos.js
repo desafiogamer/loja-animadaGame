@@ -1,5 +1,12 @@
 import{produtos} from './products.js'
 
+function limitarDigitos(numero) {
+    if (numero.toString().length > 5) {
+        return numero.toString().slice(0, 5);
+    }
+    return numero;
+}
+
 function displayItems() {
     const iphones = document.getElementById('iphone')
     const ipad = document.getElementById('ipad')
@@ -140,9 +147,11 @@ function addToCart() {
     cartData.map(item => {
         sum += item.price;
     })
+    let numero = sum
+
     document.getElementById('total-item').innerText = 'Total Item: ' + cartData.length;
 
-    document.getElementById('total-price').innerText = 'Preço total: ' + sum +' R$';
+    document.getElementById('total-price').innerText = 'Preço total: ' + limitarDigitos(numero) +' R$';
 
     document.getElementById('cart-plus').innerText = ' ' + cartData.length;
     
@@ -155,6 +164,7 @@ function cartItems() {
     tableBody.innerHTML = '';
 
     cartData.map(item => {
+        let numero = item.price
         var tableRow = document.createElement('div');
         tableRow.setAttribute('class', 'lista')
 
@@ -184,7 +194,7 @@ function cartItems() {
 
         var rowData4 = document.createElement('div');
         rowData4.setAttribute('class', 'precoItem')
-        rowData4.innerText = item.price + ' R$';
+        rowData4.innerText = limitarDigitos(numero) + ' R$';
 
         tableRow.appendChild(rowData1);
         tableRow.appendChild(rowData2);
@@ -246,6 +256,8 @@ function totalAmount() {
 
     })
 
+    let numero = sum
+
     document.getElementById('total-item').innerText = 'Total Item: ' + quantidade;
-    document.getElementById('total-price').innerText = 'Preço total: ' + sum + ' R$';
+    document.getElementById('total-price').innerText = 'Preço total: ' + limitarDigitos(numero) + ' R$';
 }
