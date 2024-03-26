@@ -37,7 +37,8 @@ let scene,
     floorParedefrontal,
     floorParedefrontal1,
     floorParedefrontal2,
-    floorParedefrontal3
+    floorParedefrontal3,
+    rock
     
 function init() {
     scene = new THREE.Scene();
@@ -228,13 +229,16 @@ function init() {
     var btnfechar3 = document.querySelector('#fechar3')
     btnfechar1.addEventListener('click',()=>{
         pratosProntos.classList.remove('ativo')
+        btnfechar1.style.display = 'none'
     })
     btnfechar2.addEventListener('click',()=>{
         bebidas.classList.remove('ativo')
+        btnfechar2.style.display = 'none'
     })
     btnfechar3.addEventListener('click',()=>{
         
         pratosLegumes.classList.remove('ativo')
+        btnfechar3.style.display = 'none'
     })
 
     //MODELOS 3D DA CENA
@@ -293,14 +297,17 @@ function init() {
 
                 if (characterBoundingBox.intersectsBox(colisionFogueira)) {
                     pratosProntos.classList.add('ativo')
+                    btnfechar1.style.display = 'block'
                 }
 
                 if (characterBoundingBox.intersectsBox(colisionLegumes)) {
                     pratosLegumes.classList.add('ativo')
+                    btnfechar3.style.display = 'block'
                 }
 
                 if (characterBoundingBox.intersectsBox(colisionBebidas)) {
                     bebidas.classList.add('ativo')
+                    btnfechar2.style.display = 'block'
                 }
 
             });
@@ -515,7 +522,7 @@ function init() {
     for(let i = 0; i < 30; i++){
         loader.load('stone_cube.glb', function (glft) {
             pedras.add(glft.scene)
-            var rock = pedras.clone()
+            rock = pedras.clone()
             rock.scale.set(
                 Math.random() * 0.1 - 0.15,
                 Math.random() * 0.1 - 0.001,
@@ -526,7 +533,7 @@ function init() {
                 0,
                 Math.random() * 20 - 15
             );
-            scene.add(rock)
+            scene.add(rock)  
         })
     }
 
@@ -583,7 +590,7 @@ function init() {
     dirLight2.shadow.camera.near = 0.1;
     dirLight2.shadow.camera.far = 200;
     dirLight2.shadow.mapSize.width = 4096;
-    dirLight2.shadow.mapSize.height = 4096;
+    dirLight2.shadow.mapSize.height = 4096;  
 
     //pontos de luzes
     const flash = new THREE.PointLight(0xfcfc72, 30, 10, 2);
@@ -597,6 +604,21 @@ function init() {
 
     const flash5 = new THREE.PointLight(0xfcfc72, 30, 10, 2);
     flash5.position.set(-8, 0, -13);
+
+    var modoSuave = false
+    var mudardisplay = document.querySelector('.display')
+    mudardisplay.addEventListener('click',()=>{
+        dirLight.castShadow = false
+        dirLight2.castShadow = false
+        scene.remove(flash5)
+        scene.remove(flash3)
+        scene.remove(flash2)
+        scene.remove(flash)
+        scene.remove(passaro)
+        scene.remove( instancedMesh );
+        scene.remove(dirLight);
+        modoSuave = true
+    })
 
     //nuvens e estrelas
     let positions = []
@@ -647,13 +669,23 @@ function init() {
         scene.remove(passaro)
         scene.remove(sol)
         scene.add(lua)
-        scene.add(dirLight2);
+
+        if(modoSuave === true){
+            scene.remove(dirLight2)
+            scene.remove(flash5)
+            scene.remove(flash3)
+            scene.remove(flash2)
+            scene.remove(flash)
+        }else{
+            scene.add(dirLight2)
+            scene.add(flash)
+            scene.add(flash2)
+            scene.add(flash3)
+            scene.add(flash5)
+        }
         scene.add(LuzAmbienteNoite)
         scene.add(rain);
-        scene.add(flash)
-        scene.add(flash2)
-        scene.add(flash3)
-        scene.add(flash5)
+        
         screen.style.display = 'block';
         btnMudarClimaNoite.style.display = 'none'
         btnMudarClimaDia.style.display = 'block'
@@ -663,10 +695,15 @@ function init() {
     btnMudarClimaDia.addEventListener('click', function() {  
         scene.fog = new THREE.FogExp2(0x83bdff, 0.002);
         renderer.setClearColor(scene.fog.color);
-       
-        scene.add(dirLight)
+        
+        if(modoSuave === true){
+            scene.remove(dirLight)
+            scene.remove(passaro)
+        }else{
+            scene.add(dirLight)
+            scene.add(passaro)
+        }
         scene.add(luzAmbientedia)
-        scene.add(passaro)
         scene.add(sol)
         scene.remove(flash5)
         scene.remove(flash3)

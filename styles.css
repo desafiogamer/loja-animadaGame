@@ -273,18 +273,21 @@ body{
     width: 100%;
     display: flex;
     justify-content: center;
-    position: absolute;
-    bottom: 0;
+    position: fixed;
+    bottom: 30px;
     padding-bottom: 20px;
+    z-index: 9;
 }
 
 .fechar{
+    display: none;
     pointer-events: all;
-    color: red;
-    border: 1px solid red;
+    color: white;
+    border: 2px solid red;
+    background: red;
     padding: 10px 13px;
     border-radius: 50%;
-    background: transparent;
+    font-weight: bold;
     cursor: pointer;
 }
 
@@ -319,9 +322,66 @@ body{
     }
 }
 
-.totalItens{
+#table-body {
     width: 100%;
-    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+
+.lista {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.lista img {
+    width: 100px;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.lista .listaNome {
+    width: 200px;
+    color: #ffffffab;
+    font-size: 20px;
+    margin-right: 30px;
+}
+
+.lista .btns {
+    margin-right: 30px;
+    font-size: 20px;
+    color: #ffffff9a;
+}
+
+.decrease-item,
+.increase-item {
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    padding: 2px;
+    border: none;
+    cursor: pointer;
+    background: white;
+    color: black;
+    transition: .4s;
+}
+
+.lista .btns span {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.precoItem{
+    color: #ffffff9a;
+}
+
+.totalItens{
+    width: 600px;
+    position: fixed;
     bottom: 0;
     display: flex;
     justify-content: space-between;
@@ -330,15 +390,27 @@ body{
     color: white;
 }
 
+.btnFinal{
+    pointer-events: all;
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #ffffffcb;
+    border: none;
+    cursor: pointer;
+    box-shadow: 10px 10px 10px #000000;
+}
+
 .pratosProntos, .legumes, .bebidas{
     pointer-events: all;
     background: #000000e3;
     backdrop-filter: blur(20px);
-    overflow-y: scroll;
+    overflow-y: auto;
     border-radius: 10px;
     padding: 20px;
     display: none;
-    
     width: 90%;
     height: 90vh;
 }
@@ -354,11 +426,72 @@ body{
     margin-top: 70px;
 }
 
-#item-card{
-   margin: 0 auto 50px;
-   color: white;
-
+#item-card {
+    position: relative;
+    margin: 70px auto;
+    background: #353535;
+    padding: 5px;
+    border-radius: 10px;
 }
+
+#item-card img {
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+}
+
+#item-name {
+    text-align: center;
+    color: white;
+    width: 100%;
+    background: #353535;
+    font-size: 22px;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #ffffff31;
+}
+
+#item-price {
+    color: #ffffffa9;
+    width: 100%;
+    background: #353535;
+    font-size: 17px;
+    padding: 10px 10px 50px 10px;
+    text-align: center;
+}
+
+#card-top {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+#card-top button {
+    background: #b8b8b8;
+    color: black;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: .3s;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+#card-top button:hover {
+    background: #385977;
+    color: white;
+}
+
+#card-top button.ativo {
+    background: #385977;
+    color: white;
+}
+
 
 .title{
     width: 100%;
