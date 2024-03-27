@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from '../build/three.module.js';
 import {GLTFLoader} from '../jsm/GLTFLoader.js';
 import { CharacterControls } from './charaterControls.js';
 import {OrbitControls} from '../jsm/OrbitControls.js';
@@ -80,10 +80,10 @@ function init() {
 
     //texturas da paredes
     generateFloor()
-    generateEstrada(5, 15, -8, 0.001, -5, 0)
+    generateEstrada(5, 18, -8, 0.001, -6, 0)
     generateEstrada(5, 16.6,1.7, 0.002,-8,1.6)
     generateEstrada(5, 11.5,8.5, 0.004, -0.9,0)
-    generateEstrada(5, 4,6.7, 0.004, -11.5,0)
+    generateEstrada(5, 5.5,6.7, 0.004, -12.2,0)
 
     //chao base
     function generateFloor() {
@@ -177,7 +177,7 @@ function init() {
     divBalao.setAttribute('class', 'balao')
     var menssagem = document.createElement('p');
     menssagem.setAttribute('class', 'mensagem');
-    menssagem.textContent = 'Bem vindo, fique a vontade para escolher seu prato!'
+    menssagem.textContent = 'Bem vindo, fique a vontade para escolher seu lanche!'
     divBalao.appendChild(menssagem)
 
     const divNaCena = new CSS2DObject(divBalao)
@@ -235,11 +235,11 @@ function init() {
                 new THREE.Box3().setFromObject(fogueira),
                 new THREE.Box3().setFromObject(cozinheiro),
                 new THREE.Box3().setFromObject(placa),
+                new THREE.Box3().setFromObject(mailBox),
                 new THREE.Box3().setFromObject(poco),
                 new THREE.Box3().setFromObject(lenha),
                 new THREE.Box3().setFromObject(poste),
                 new THREE.Box3().setFromObject(casa),
-                new THREE.Box3().setFromObject(shopVegetal),
                 new THREE.Box3().setFromObject(shop),
                 new THREE.Box3().setFromObject(floorParedefrontal),
                 new THREE.Box3().setFromObject(floorParedefrontal1),
@@ -248,8 +248,8 @@ function init() {
             ];
             var colisionCozinheiro = new THREE.Box3().setFromObject(cozinheiro)
             var colisionFogueira = new THREE.Box3().setFromObject(fogueira)
-            var colisionLegumes = new THREE.Box3().setFromObject(shopVegetal)
             var colisionBebidas = new THREE.Box3().setFromObject(shop)
+            var colisionMail = new THREE.Box3().setFromObject(mailBox)
 
             objectsBoundingBoxes.forEach(objectBoundingBox => {
                 if (characterBoundingBox.intersectsBox(objectBoundingBox)) {
@@ -265,7 +265,7 @@ function init() {
                     btnfechar1.style.display = 'block'
                 }
 
-                if (characterBoundingBox.intersectsBox(colisionLegumes)) {
+                if (characterBoundingBox.intersectsBox(colisionMail)) {
                     pratosLegumes.classList.add('ativo')
                     btnfechar3.style.display = 'block'
                 }
@@ -311,8 +311,8 @@ function init() {
     loader.load('juice_shop.glb', function (glft) {
         shop.add(glft.scene)
         shop.scale.set(30, 30, 30)
-        shop.rotation.y = -0.8
-        shop.position.set(-8.5, 1, -13.5)
+        shop.rotation.y = -1.5
+        shop.position.set(7, 1, -14)
         shop.traverse(function (object) {
             if (object.isMesh) object.castShadow = true;
         });
@@ -324,9 +324,19 @@ function init() {
     loader.load('correio.glb', function (glft) {
         mailBox.add(glft.scene)
         mailBox.scale.set(1.3, 1.3, 1.3)
-        mailBox.rotation.y = 3.05
-        mailBox.position.set(1, 0, 4.3)
+        mailBox.rotation.y = 0
+        mailBox.position.set(-7.5, 0, -14)
         scene.add(mailBox)
+    })
+
+    //arvore
+    const arvore = new THREE.Object3D()
+    loader.load('free_tree_1.glb', function (glft) {
+        arvore.add(glft.scene)
+        arvore.scale.set(0.01, 0.01, 0.01)
+        arvore.rotation.y = 0
+        arvore.position.set(-9, 0, -14)
+        scene.add(arvore)
     })
 
     //vaca
@@ -345,25 +355,12 @@ function init() {
         });
     })
 
-    //shopVegetal
-    const shopVegetal = new THREE.Object3D()
-    loader.load('vegetables_shop.glb', function (glft) {
-        shopVegetal.add(glft.scene)
-        shopVegetal.scale.set(0.6, 0.6, 0.6)
-        shopVegetal.rotation.y = -1.5
-        shopVegetal.position.set(7, 0.1, -14)
-        shopVegetal.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
-        scene.add(shopVegetal)
-    })
-
     //fogueira
     const fogueira = new THREE.Object3D()
     loader.load('barbecue_grill.glb', function (glft) {
         fogueira.add(glft.scene)
         fogueira.scale.set(2, 2, 2)
-        fogueira.rotation.y = 1
+        fogueira.rotation.y = 3
         fogueira.position.set(9, 0, -4.5)
         fogueira.traverse(function (object) {
             if (object.isMesh) object.castShadow = true;
@@ -474,9 +471,9 @@ function init() {
 
     //lua
     const lua = new THREE.Object3D()
-    loader.load('the_moon.glb', function (glft) {
+    loader.load('lua.glb', function (glft) {
         lua.add(glft.scene)
-        lua.scale.set(0.7, 0.7, 0.7)
+        lua.scale.set(5, 5, 5)
         lua.position.set(50, 30, -100)
         lua.rotation.y = 1.6
     })
@@ -501,7 +498,7 @@ function init() {
     loader.load('directional_arrow_1.glb', function (glft) {
         seta1.add(glft.scene)
         seta1.scale.set(0.03, 0.03, 0.03)
-        seta1.position.set(7, 2.3, -14)
+        seta1.position.set(7, 2.5, -14)
         seta1.rotation.y = 2.5
         mixerseta1 = new THREE.AnimationMixer(seta1);
         glft.animations.forEach((clip) => {
@@ -516,7 +513,7 @@ function init() {
     loader.load('directional_arrow_1.glb', function (glft) {
         seta2.add(glft.scene)
         seta2.scale.set(0.03, 0.03, 0.03)
-        seta2.position.set(-8.5, 2.5, -13.5)
+        seta2.position.set(-7.5, 1.5, -14)
         seta2.rotation.y = 3.5
         mixerseta2 = new THREE.AnimationMixer(seta2);
         glft.animations.forEach((clip) => {
@@ -529,12 +526,12 @@ function init() {
     //pedras
     const pedras = new THREE.Object3D()
     for(let i = 0; i < 30; i++){
-        loader.load('stone_cube.glb', function (glft) {
+        loader.load('pedra.glb', function (glft) {
             pedras.add(glft.scene)
             rock = pedras.clone()
             rock.scale.set(
                 Math.random() * 0.1 - 0.15,
-                Math.random() * 0.1 - 0.001,
+                Math.random() * 0.1 - 0.01,
                 Math.random() * 0.1 - 0.15
             )
             rock.position.set(
@@ -602,17 +599,14 @@ function init() {
     dirLight2.shadow.mapSize.height = 4096;  
 
     //pontos de luzes
-    const flash = new THREE.PointLight(0xfcfc72, 10, 10, 2);
-    flash.position.set(9.5, 2, -14);
+    const flash = new THREE.PointLight(0xfcfc72, 10, 10, 1);
+    flash.position.set(9.5, 2, -13);
 
     const flash2 = new THREE.PointLight(0xff1e00, 1, 1, 4);
     flash2.position.set(9, 1, -4.5);
 
     const flash3 = new THREE.PointLight(0xffffff, 10, 40, 0);
     flash3.position.set(50, 30, -80);
-
-    const flash5 = new THREE.PointLight(0xfcfc72, 10, 10, 2);
-    flash5.position.set(-8.5, 1, -13.5);
 
     var modoSuave = false
     mudardisplayBaixo = document.querySelector('.display')
@@ -622,7 +616,6 @@ function init() {
         renderer.shadowMap.enabled = false
         dirLight.castShadow = false
         dirLight2.castShadow = false
-        scene.remove(flash5)
         scene.remove(flash3)
         scene.remove(flash2)
         scene.remove(flash)
@@ -698,7 +691,6 @@ function init() {
 
         if(modoSuave === true){
             scene.remove(dirLight2)
-            scene.remove(flash5)
             scene.remove(flash3)
             scene.remove(flash2)
             scene.remove(flash)
@@ -707,7 +699,6 @@ function init() {
             scene.add(flash)
             scene.add(flash2)
             scene.add(flash3)
-            scene.add(flash5)
         }
         scene.add(LuzAmbienteNoite)
         scene.add(rain);
@@ -731,7 +722,6 @@ function init() {
         }
         scene.add(luzAmbientedia)
         scene.add(sol)
-        scene.remove(flash5)
         scene.remove(flash3)
         scene.remove(flash2)
         scene.remove(flash)

@@ -9,7 +9,6 @@ function limitarDigitos(numero) {
 
 function displayItems() {
     const iphones = document.getElementById('iphone')
-    const ipad = document.getElementById('ipad')
     const mac = document.getElementById('Mac')
 
     const iphonesItems = produtos.filter((item) => item.category == 'iphone');
@@ -81,41 +80,6 @@ function displayItems() {
         itemCard.appendChild(itemPrice);
 
         mac.appendChild(itemCard);
-
-    })
-
-    const ipadItens = produtos.filter((item) => item.category == 'ipad');
-    ipadItens.map(item => {
-        var itemCard = document.createElement('div');
-        itemCard.setAttribute('id', 'item-card')
-
-        var img = document.createElement('img');
-        img.src = item.img;
-
-        var cardTop = document.createElement('div');
-        cardTop.setAttribute('id', 'card-top');
-
-        var heart = document.createElement('button');
-        heart.setAttribute('class', 'add-to-cart');
-        heart.setAttribute('id', item.id)
-        heart.innerText = 'Comprar'
-
-        cardTop.appendChild(heart);
-
-        var itemName = document.createElement('p');
-        itemName.setAttribute('id', 'item-name');
-        itemName.innerText = item.nome;
-
-        var itemPrice = document.createElement('p');
-        itemPrice.setAttribute('id', 'item-price');
-        itemPrice.innerText = 'A partir de R$ ' + item.price;
-
-        itemCard.appendChild(cardTop);
-        itemCard.appendChild(img);
-        itemCard.appendChild(itemName);
-        itemCard.appendChild(itemPrice);
-
-        ipad.appendChild(itemCard);
 
     })
 }
