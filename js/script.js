@@ -1,63 +1,27 @@
-import * as THREE from '../build/three.module.js';
+import * as THREE from 'three';
 import {GLTFLoader} from '../jsm/GLTFLoader.js';
 import { CharacterControls } from './charaterControls.js';
 import {OrbitControls} from '../jsm/OrbitControls.js';
 import {CSS2DRenderer, CSS2DObject} from '../jsm/CSS2DRenderer.js'
 
-let scene,
-    camera,
-    renderer,
-    antialiasEnabled = true,
-    characterControls,
-    orbitControls,
-    keysPressed,
-    labelRenderer,
-    //animações
-    mixer, 
-    mixer3,
-    mixerCozinheiro,
-    mixergalinha,
-    mixerPassaro,
-    mixerVaca,
-    //nuvens e estrelas
-    rainGeo,
-    rain,
-    rainDrop,
-    cloudGeo,
-    rainCount = 3000,
-    clouds = [],
-    //grama
-    leavesMaterial,
-    //galinha e passaro se movendo
-    andando = true,
-    andandoPassaro = true,
-    girando = true,
-    flutuando = true,
-    galinha,
-    passaro,
-    floorParedefrontal,
-    floorParedefrontal1,
-    floorParedefrontal2,
-    floorParedefrontal3,
-    rock,
-    mudardisplayBaixo,
-    mudardisplayAlto
-    
+let scene,camera,renderer,characterControls,orbitControls,keysPressed,labelRenderer,mixer,mixerseta,mixerseta1,mixerseta2, mixer3,mixerCozinheiro,mixergalinha,mixerPassaro,mixerVaca,rainGeo,rain,rainDrop,cloudGeo,rainCount = 3000,clouds = [],leavesMaterial,andando = true,andandoPassaro = true,girando = true,flutuando = true,galinha,passaro,floorParedefrontal,floorParedefrontal1,floorParedefrontal2,floorParedefrontal3,rock,clouund,mudardisplayBaixo,mudardisplayAlto 
 function init() {
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 300);
     camera.position.z = 1;
     camera.rotation.x = 1.16;
     camera.rotation.z = 0.27;
 
     //renderer
     renderer = new THREE.WebGLRenderer({
-        antialias: antialiasEnabled
+        antialias: true
     });
     scene.fog = new THREE.FogExp2(0x83bdff, 0.002);
     renderer.setClearColor(scene.fog.color);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true
+    renderer.antialias = true;
+    renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
 
     labelRenderer = new CSS2DRenderer()
@@ -68,7 +32,6 @@ function init() {
     document.body.appendChild(labelRenderer.domElement)
 
     //cercas
-
     //textura da cerca
     const textureLoader = new THREE.TextureLoader();
     const placeholderParedefrontal = textureLoader.load("./textures/cerca.png");
@@ -345,11 +308,11 @@ function init() {
 
     //shop
     const shop = new THREE.Object3D()
-    loader.load('juice_carton_shop.glb', function (glft) {
+    loader.load('juice_shop.glb', function (glft) {
         shop.add(glft.scene)
-        shop.scale.set(1, 1, 1)
+        shop.scale.set(30, 30, 30)
         shop.rotation.y = -0.8
-        shop.position.set(-8, 0, -13)
+        shop.position.set(-8.5, 1, -13.5)
         shop.traverse(function (object) {
             if (object.isMesh) object.castShadow = true;
         });
@@ -386,7 +349,7 @@ function init() {
     const shopVegetal = new THREE.Object3D()
     loader.load('vegetables_shop.glb', function (glft) {
         shopVegetal.add(glft.scene)
-        shopVegetal.scale.set(0.8, 0.8, 0.8)
+        shopVegetal.scale.set(0.6, 0.6, 0.6)
         shopVegetal.rotation.y = -1.5
         shopVegetal.position.set(7, 0.1, -14)
         shopVegetal.traverse(function (object) {
@@ -397,10 +360,11 @@ function init() {
 
     //fogueira
     const fogueira = new THREE.Object3D()
-    loader.load('pot_with_food_and__bonfire_lowpoly.glb', function (glft) {
+    loader.load('barbecue_grill.glb', function (glft) {
         fogueira.add(glft.scene)
-        fogueira.scale.set(1, 1, 1)
-        fogueira.position.set(9, 1, -5)
+        fogueira.scale.set(2, 2, 2)
+        fogueira.rotation.y = 1
+        fogueira.position.set(9, 0, -4.5)
         fogueira.traverse(function (object) {
             if (object.isMesh) object.castShadow = true;
         });
@@ -467,11 +431,11 @@ function init() {
 
     //placa
     const placa = new THREE.Object3D()
-    loader.load('notice_board_low-poly.glb', function (glft) {
+    loader.load('message_board.glb', function (glft) {
         placa.add(glft.scene)
         placa.scale.set(0.6, 0.6, 0.6)
-        placa.position.set(9, 0.7, 4)
-        placa.rotation.y = -4
+        placa.position.set(11.5, -0.3, 6.2)
+        placa.rotation.y = 0.8
         scene.add(placa)
     })
 
@@ -517,6 +481,51 @@ function init() {
         lua.rotation.y = 1.6
     })
 
+    //seta
+    const seta = new THREE.Object3D()
+    loader.load('directional_arrow_1.glb', function (glft) {
+        seta.add(glft.scene)
+        seta.scale.set(0.03, 0.03, 0.03)
+        seta.position.set(9, 1, -4.5)
+        seta.rotation.y = 2
+        mixerseta = new THREE.AnimationMixer(seta);
+        glft.animations.forEach((clip) => {
+            mixerseta.clipAction(clip).play();
+            mixerseta.clipAction(clip).clampWhenFinished = true;
+        });
+        scene.add(seta)
+    })
+
+    //seta1
+    const seta1 = new THREE.Object3D()
+    loader.load('directional_arrow_1.glb', function (glft) {
+        seta1.add(glft.scene)
+        seta1.scale.set(0.03, 0.03, 0.03)
+        seta1.position.set(7, 2.3, -14)
+        seta1.rotation.y = 2.5
+        mixerseta1 = new THREE.AnimationMixer(seta1);
+        glft.animations.forEach((clip) => {
+            mixerseta1.clipAction(clip).play();
+            mixerseta1.clipAction(clip).clampWhenFinished = true;
+        });
+        scene.add(seta1)
+    })
+
+    //seta2
+    const seta2 = new THREE.Object3D()
+    loader.load('directional_arrow_1.glb', function (glft) {
+        seta2.add(glft.scene)
+        seta2.scale.set(0.03, 0.03, 0.03)
+        seta2.position.set(-8.5, 2.5, -13.5)
+        seta2.rotation.y = 3.5
+        mixerseta2 = new THREE.AnimationMixer(seta2);
+        glft.animations.forEach((clip) => {
+            mixerseta2.clipAction(clip).play();
+            mixerseta2.clipAction(clip).clampWhenFinished = true;
+        });
+        scene.add(seta2)
+    })
+
     //pedras
     const pedras = new THREE.Object3D()
     for(let i = 0; i < 30; i++){
@@ -539,10 +548,10 @@ function init() {
 
     //nuvens
     const nuvens = new THREE.Object3D()
-    for(let i = 0; i < 30; i++){
+    for(let i = 0; i < 20; i++){
         loader.load('clouds.glb', function (glft) {
             nuvens.add(glft.scene)
-            var clouund = nuvens.clone()
+            clouund = nuvens.clone()
             clouund.scale.x = 0.01
             clouund.scale.z = 0.01
             clouund.scale.y = Math.random() * 0.01 - 0.001,
@@ -593,17 +602,17 @@ function init() {
     dirLight2.shadow.mapSize.height = 4096;  
 
     //pontos de luzes
-    const flash = new THREE.PointLight(0xfcfc72, 30, 10, 2);
+    const flash = new THREE.PointLight(0xfcfc72, 10, 10, 2);
     flash.position.set(9.5, 2, -14);
 
-    const flash2 = new THREE.PointLight(0xff1e00, 2, 4, 4);
-    flash2.position.set(9, 0, -5);
+    const flash2 = new THREE.PointLight(0xff1e00, 1, 1, 4);
+    flash2.position.set(9, 1, -4.5);
 
     const flash3 = new THREE.PointLight(0xffffff, 10, 40, 0);
     flash3.position.set(50, 30, -80);
 
-    const flash5 = new THREE.PointLight(0xfcfc72, 30, 10, 2);
-    flash5.position.set(-8, 0, -13);
+    const flash5 = new THREE.PointLight(0xfcfc72, 10, 10, 2);
+    flash5.position.set(-8.5, 1, -13.5);
 
     var modoSuave = false
     mudardisplayBaixo = document.querySelector('.display')
@@ -622,11 +631,8 @@ function init() {
         scene.remove(dirLight);
         scene.remove(dirLight2);
         scene.remove(galinha);
-        modoSuave = true
-        antialiasEnabled = !antialiasEnabled;
-        renderer.antialias = antialiasEnabled;
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);    
+        scene.remove(clouund)
+        modoSuave = true    
     })
 
     mudardisplayAlto.addEventListener('click',()=>{
@@ -995,6 +1001,9 @@ function animate() {
         if (mixergalinha) mixergalinha.update(mixerupdateDelta);
         if (mixerPassaro) mixerPassaro.update(mixerupdateDelta);
         if (mixerVaca) mixerVaca.update(mixerupdateDelta);
+        if (mixerseta) mixerseta.update(mixerupdateDelta);
+        if (mixerseta1) mixerseta1.update(mixerupdateDelta);
+        if (mixerseta2) mixerseta2.update(mixerupdateDelta);
         orbitControls.update();
 
     clouds.forEach(function(cloud) {
@@ -1028,22 +1037,6 @@ function animate() {
             passaro.rotation.y = -1.5
         }
     }
-
-    mudardisplayBaixo.addEventListener('click',()=>{
-        if (camera.far == 1000) {
-            camera.far -= 900;
-        } else {
-            console.log("Render distance cannot be decreased further.");
-        }
-    })
-
-    mudardisplayAlto.addEventListener('click',()=>{
-        if (camera.far == 100) {
-            camera.far += 900;
-        } else {
-            console.log("Render distance cannot be decreased further.");
-        }
-    })
     
     leavesMaterial.uniforms.time.value = clock.getElapsedTime();
     leavesMaterial.uniformsNeedUpdate = true;

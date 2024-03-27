@@ -185,14 +185,25 @@ body{
 
 #dia, #noite{
     pointer-events: all;
-    background: #ffffff50;
-    backdrop-filter: blur(20px);
-    cursor: pointer;
+    font-size: 15px;
+    padding: 8px 20px;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #4CAF50, #556270);
     color: white;
-    border-radius: 5px;
-    padding: 5px 20px;
     border: none;
-    box-shadow: 5px 5px 10px #000000be;
+    box-shadow: 0px 5px 10px #00000033;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+#dia:hover, #noite:hover {
+    transform: translateY(-2px);
+}
+
+#dia:active, #noite:active{
+    transform: translateY(2px);
+    box-shadow: 0px 2px 5px #00000033;
 }
 
 .blink {
@@ -254,6 +265,11 @@ body{
 }
 
 .car-shop{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 55px;
     position: absolute;
     top: 20px;
     right: 20px;
@@ -265,6 +281,10 @@ body{
     border: 1px solid #ffffffcc;
     border-radius: 50%;
     padding: 12px 5px;
+}
+
+.car-shop i{
+    margin-right: 3px;
 }
 
 .iphones{
@@ -293,8 +313,8 @@ body{
 .fechar{
     display: none;
     pointer-events: all;
-    color: white;
-    border: 2px solid red;
+    color: #ffffffd7;
+    border: 2px solid #ffffffbd;
     background: red;
     padding: 10px 13px;
     border-radius: 50%;
@@ -439,7 +459,7 @@ body{
 
 #item-card {
     position: relative;
-    margin: 70px auto;
+    margin: 20px auto 70px;
     background: #353535;
     padding: 5px;
     border-radius: 10px;
@@ -503,29 +523,33 @@ body{
     color: white;
 }
 
-
 .title{
     width: 100%;
     display: flex;
     justify-content: center;
     color: white;
+    margin-top: 20px;
+    font-size: 30px;
 }
 
 .arrumarConfig {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     position: absolute;
-    display: block;
     width: 50px;
     left: 0;
     top: 30px;
-    background:white;
-    z-index: 9999991;
+    background:#ffffff7e;
+    backdrop-filter: blur(20px);
     border-radius: 0 10px 10px 0;
+    z-index: 2;
 }
 
 .arrumarConfig img {
     width: 40px;
-    animation: rodar 4s linear infinite;
+    animation: rodar 8s linear infinite;
 }
 
 @keyframes rodar {
@@ -548,7 +572,6 @@ body{
     padding: 20px;
     animation: aparecerConfig .3s linear;
     margin-bottom: 20px;
-    z-index: 999999;
 }
 
 .desabilitar h3 {
@@ -583,7 +606,6 @@ body{
     padding: 20px;
     animation: aparecerConfig .3s linear;
     margin-bottom: 20px;
-    z-index: 999999;
 }
 
 .habilitar h3 {
@@ -628,7 +650,6 @@ body{
     padding: 30px 20px 20px 20px;
     border-radius: 0 10px 10px 0;
     animation: aparecerConfig .3s linear;
-    z-index: 999999;
 }
 
 .config.ativo {
