@@ -36,6 +36,10 @@
 			<button id="paraTrilha"><i class="bi bi-volume-up-fill"></i></button>
 			<button id="ativarTrilha"><i class="bi bi-volume-mute-fill"></i></button>
 		</div>
+		<div class="fullscren">
+			<h3>Tela Cheia</h3>
+			<button id="fullscreen-button">Tela Cheia</button>
+		</div>
 	</div>
 
 	<div class="blink" id="screen"></div>
@@ -73,8 +77,44 @@
 		
 		<div class="legumes">
 			<div class="title">
-				<h1 class="title">correio</h1>
+				<h1 class="title">Contate-me</h1>
 			</div>
+			<form id="contact-form" method="POST" action="https://formsubmit.co/joaopap1234@gmail.com"
+				enctype="multipart/form-data">
+				<input type="hidden" name="_captcha" value="false">
+				<input type="hidden" name="_next" value="http://127.0.0.1:5500">
+			
+				<div class="input-box">
+					<div class="input-field">
+						<input type="text" name="nome" placeholder="Nome completo" required>
+					</div>
+			
+					<div class="input-field">
+						<input type="email" name="email" placeholder="Endereço de email" required>
+					</div>
+				</div>
+			
+				<div class="input-box">
+					<div class="input-field">
+						<input type="text" name="telefone" placeholder="Numero de telefone" required>
+					</div>
+			
+					<div class="input-field">
+						<input type="text" name="assunto_email" placeholder="Assunto do email" required>
+					</div>
+				</div>
+			
+				<div class="textarea-field">
+					<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" required></textarea>
+				</div>
+			
+				<div class="btn">
+					<button type="submit">
+						<span class="texto">Enviar</span>
+						<span class="logo-enviar"><i class="bi bi-arrow-right"></i></span>
+					</button>
+				</div>
+			</form>
 		</div>
 		<div class="btnfechar">
 			<button class="fechar" id="fechar3">X</button>

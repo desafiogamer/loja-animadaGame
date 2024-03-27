@@ -4,7 +4,7 @@ import { CharacterControls } from './charaterControls.js';
 import {OrbitControls} from '../jsm/OrbitControls.js';
 import {CSS2DRenderer, CSS2DObject} from '../jsm/CSS2DRenderer.js'
 
-let scene,camera,renderer,characterControls,orbitControls,keysPressed,labelRenderer,mixer,mixerseta,mixerseta1,mixerseta2, mixer3,mixerCozinheiro,mixergalinha,mixerPassaro,mixerVaca,rainGeo,rain,rainDrop,cloudGeo,rainCount = 3000,clouds = [],leavesMaterial,andando = true,andandoPassaro = true,girando = true,flutuando = true,galinha,passaro,floorParedefrontal,floorParedefrontal1,floorParedefrontal2,floorParedefrontal3,rock,clouund,mudardisplayBaixo,mudardisplayAlto 
+let scene,camera,renderer,model,characterControls,orbitControls,keysPressed,labelRenderer,mixer,mixerseta,mixerseta1,mixerseta2, mixer3,mixerCozinheiro,mixergalinha,mixerPassaro,mixerVaca,rainGeo,rain,rainDrop,cloudGeo,rainCount = 3000,clouds = [],leavesMaterial,andando = true,andandoPassaro = true,girando = true,flutuando = true,galinha,passaro,floorParedefrontal,floorParedefrontal1,floorParedefrontal2,floorParedefrontal3,rock,clouund,mudardisplayBaixo,mudardisplayAlto 
 function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 300);
@@ -20,7 +20,6 @@ function init() {
     renderer.setClearColor(scene.fog.color);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true
-    renderer.antialias = true;
     renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
 
@@ -212,7 +211,7 @@ function init() {
     //personagem controlado
     const loader = new GLTFLoader().setPath('./models/');
     loader.load('personagem.glb', function (glft) {
-        const model = glft.scene
+        model = glft.scene
         model.scale.set(0.25, 0.25, 0.25)
         model.traverse(function (object) {
             if (object.isMesh) object.castShadow = true;
@@ -282,12 +281,11 @@ function init() {
             } else {
                 characterPreviousPosition.copy(characterControls.model.position);
             }
+            requestAnimationFrame(checkCollisions)
         }
-        function update() {
-            checkCollisions();
-            requestAnimationFrame(update);
-        }
-        update() 
+        
+        
+        checkCollisions(); 
     });
 
     //passaro
