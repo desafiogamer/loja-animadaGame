@@ -1,15 +1,1 @@
-window.addEventListener('load', function () {
-  const preloader = document.getElementById('preloader');
-
-  let load = 0;
-  const interval = setInterval(() => {
-    load++;
-    document.getElementById('percentage').innerText = `${load}%`;
-
-    if (load === 10) {
-      clearInterval(interval);
-      preloader.style.display = 'none';
-    }
-  }, 20);
-});
-  
+window.addEventListener("load",function(){let e=document.getElementById("preloader"),n=0,t=setInterval(()=>{n++,document.getElementById("percentage").innerText=`${n}%`,10===n&&(clearInterval(t),e.style.display="none")},20)});
