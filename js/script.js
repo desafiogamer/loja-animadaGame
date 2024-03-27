@@ -1,4 +1,4 @@
-import * as THREE from '../build/three.module.js';
+import * as THREE from 'three';
 import {GLTFLoader} from '../jsm/GLTFLoader.js';
 import { CharacterControls } from './charaterControls.js';
 import {OrbitControls} from '../jsm/OrbitControls.js';
@@ -20,7 +20,7 @@ function init() {
     renderer.setClearColor(scene.fog.color);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true
-    renderer.setPixelRatio(window.devicePixelRatio);
+    
     document.body.appendChild(renderer.domElement);
 
     labelRenderer = new CSS2DRenderer()
@@ -91,8 +91,6 @@ function init() {
         const geometry = new THREE.PlaneGeometry(30, 30);
         const material = new THREE.MeshPhongMaterial({ map: placeholder})
         const floor = new THREE.Mesh(geometry, material)
-        floor.castShadow = true;
-        floor.receiveShadow = true;
         floor.rotation.x = - Math.PI / 2
         floor.position.set(0,0,-5)
         scene.add(floor)
@@ -273,7 +271,6 @@ function init() {
                     bebidas.classList.add('ativo')
                     btnfechar2.style.display = 'block'
                 }
-
             });
 
             if (collided) {
@@ -283,7 +280,6 @@ function init() {
             }
             requestAnimationFrame(checkCollisions)
         }
-        
         
         checkCollisions(); 
     });
@@ -420,7 +416,6 @@ function init() {
         lenha.scale.set(3, 3, 3)
         lenha.position.set(0, 0, -14.2)
         lenha.rotation.y = 1.5
-
         scene.add(lenha)
     })
 
@@ -440,7 +435,6 @@ function init() {
         poco.add(glft.scene)
         poco.scale.set(1, 1, 1)
         poco.position.set(-2, 0, -5)
-        //poco.rotation.y = -4
         scene.add(poco)
     })
 
@@ -873,105 +867,6 @@ function init() {
         renderer.setSize(this.window.innerWidth, this.window.innerHeight)
         labelRenderer.setSize(this.window.innerWidth, this.window.innerHeight)
     })
-
-    //joystick para mobile
-    const joystick = document.getElementById('joystick');
-    const stick = document.getElementById('stick');
-    let stickOffsetX = 0;
-    let stickOffsetY = 0;
-    let isJoystickActive = false;
-
-    function pressKey(key) {
-        const event = new KeyboardEvent('keydown', {
-            key: key
-        });
-        document.dispatchEvent(event);
-    }
-
-    function releaseKey(key) {
-        const event = new KeyboardEvent('keyup', {
-            key: key
-        });
-        document.dispatchEvent(event);
-    }
-
-    joystick.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        if (!isJoystickActive) {
-            isJoystickActive = true;
-            const touch = e.touches[0];
-            const rect = joystick.getBoundingClientRect();
-            stickOffsetX = touch.clientX;
-            stickOffsetY = touch.clientY;
-            stick.style.transition = 'none';
-            moveStick(touch.clientX, touch.clientY);
-        }
-    });
-
-    joystick.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        if (isJoystickActive) {
-            const touch = e.touches[0];
-            moveStick(touch.clientX, touch.clientY);
-        }
-    });
-
-    joystick.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        if (isJoystickActive) {
-            isJoystickActive = false;
-            stick.style.transition = 'transform 0.1s ease-out';
-            stick.style.transform = 'translate(0, 0)';
-            releaseKey('w');
-            releaseKey('a');
-            releaseKey('s');
-            releaseKey('d');
-        }
-    });
-
-    function moveStick(x, y) {
-        const rect = joystick.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const deltaX = x - centerX;
-        const deltaY = y - centerY;
-        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        const maxDistance = Math.min(rect.width, rect.height) / 2 - 25; // 25 = metade do tamanho do stick
-
-        if (distance > maxDistance) {
-            const ratio = maxDistance / distance;
-            x = centerX + deltaX * ratio;
-            y = centerY + deltaY * ratio;
-        }
-
-        stick.style.transform = `translate(${x - stickOffsetX}px, ${y - stickOffsetY}px)`;
-
-        // Calcular a direção
-        const angle = Math.atan2(deltaY, deltaX);
-        const angleInDegrees = angle * (180 / Math.PI);
-
-        if (angleInDegrees >= -135 && angleInDegrees < -45) {
-            releaseKey('d');
-            releaseKey('s');
-            releaseKey('a');
-            pressKey('w'); // Esquerda
-        } else if (angleInDegrees >= -45 && angleInDegrees < 45) {
-            releaseKey('w');
-            releaseKey('s');
-            releaseKey('a');
-            pressKey('d'); // Cima
-        } else if (angleInDegrees >= 45 && angleInDegrees < 135) {
-            releaseKey('w');
-            releaseKey('a');
-            releaseKey('d');
-            pressKey('s'); // Baixo
-        } else {
-            releaseKey('w');
-            releaseKey('d');
-            releaseKey('s');
-            pressKey('a'); // Direita
-        }
-    }
     
     animate();
 }
@@ -993,10 +888,6 @@ function animate() {
         if (mixerseta1) mixerseta1.update(mixerupdateDelta);
         if (mixerseta2) mixerseta2.update(mixerupdateDelta);
         orbitControls.update();
-
-    clouds.forEach(function(cloud) {
-        cloud.rotation.z += 0.002;
-    });
 
     if(andando == true){
         galinha.position.x += 0.005;
