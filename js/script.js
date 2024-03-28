@@ -16,7 +16,7 @@ function init() {
     renderer = new THREE.WebGLRenderer({
         antialias: true
     });
-    scene.fog = new THREE.FogExp2(0x83bdff, 0.002);
+    scene.fog = new THREE.FogExp2(0x87ceeb, 0.002);
     renderer.setClearColor(scene.fog.color);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true
@@ -958,6 +958,7 @@ function init() {
     })
 
     if(window.innerWidth < 768){
+        alert('Coloque em tela cheia e vire a tela do seu celular!!')
         if (window.screen.orientation) {
             if (window.screen.orientation.type === 'portrait-primary') {
             window.screen.orientation.lock('landscape-primary');
