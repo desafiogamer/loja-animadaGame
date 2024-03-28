@@ -461,7 +461,8 @@ body {
     display: none;
     width: 90%;
     height: 90vh;
-    z-index: 9999
+    z-index: 9999;
+    padding-bottom: 50px;
 }
 
 .bebidas.ativo,
@@ -850,6 +851,24 @@ body {
     #table-body {
         align-items: center
     }
+
+    #contact-form{
+        padding-bottom: 30px;
+    }
+
+    .input-box {
+        width: 100%;
+        display: block
+    }
+
+    .input-field {
+        width: 100%;
+        margin-right: 0
+    }
+
+    .textarea-field {
+        width: 100%
+    }
 }
 
 @media(max-width:560px) {
@@ -890,10 +909,6 @@ body {
     .btnfechar {
         top: 10px;
         padding-right: 10px
-    }
-
-    .textarea-field {
-        width: 100%
     }
 }
 
