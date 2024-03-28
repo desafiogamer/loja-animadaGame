@@ -1,4 +1,828 @@
-import*as e from"../build/three.module.js";import{GLTFLoader as t}from"../jsm/GLTFLoader.js";import{CharacterControls as n}from"./charaterControls.js";import{OrbitControls as a}from"../jsm/OrbitControls.js";import{CSS2DRenderer as o,CSS2DObject as r}from"../jsm/CSS2DRenderer.js";let scene,camera,renderer,model,characterControls,orbitControls,keysPressed,labelRenderer,mixer,mixerseta,mixerseta1,mixerseta2,mixer3,mixerCozinheiro,mixergalinha,mixerPassaro,mixerVaca,rainGeo,rain,rainDrop,cloudGeo,rainCount=3e3,clouds=[],leavesMaterial,andando=!0,andandoPassaro=!0,girando=!0,flutuando=!0,galinha,passaro,floorParedefrontal,floorParedefrontal1,floorParedefrontal2,floorParedefrontal3,rock,clouund,mudardisplayBaixo,mudardisplayAlto;function init(){scene=new e.Scene,(camera=new e.PerspectiveCamera(50,window.innerWidth/window.innerHeight,.1,300)).position.z=1,camera.rotation.x=1.16,camera.rotation.z=.27,renderer=new e.WebGLRenderer({antialias:!0}),scene.fog=new e.FogExp2(8900331,.002),renderer.setClearColor(scene.fog.color),renderer.setSize(window.innerWidth,window.innerHeight),renderer.shadowMap.enabled=!0,document.body.appendChild(renderer.domElement),(labelRenderer=new o).setSize(window.innerWidth,window.innerHeight),labelRenderer.domElement.style.position="absolute",labelRenderer.domElement.style.top="0px",labelRenderer.domElement.style.pointerEvents="none",document.body.appendChild(labelRenderer.domElement);let i=new e.TextureLoader,s=i.load("./textures/cerca.png");s.wrapS=e.RepeatWrapping,s.wrapT=e.RepeatWrapping,s.repeat.set(5,1);let l=new e.MeshPhongMaterial({map:s,transparent:!0,side:e.DoubleSide});function d(t,n,a,o,r,i){let s=new e.TextureLoader,l=s.load("./textures/estrada.png"),d=new e.PlaneGeometry(t,n),c=new e.MeshPhongMaterial({map:l,transparent:!0}),$=new e.Mesh(d,c);$.castShadow=!0,$.receiveShadow=!0,$.rotation.x=-Math.PI/2,$.rotation.z=i,$.position.set(a,o,r),scene.add($)}(function t(n,a,o,r,i,s){let d=new e.PlaneGeometry(20,1);(floorParedefrontal=new e.Mesh(d,l)).position.set(0,.5,-14.9),floorParedefrontal.rotation.y=0,scene.add(floorParedefrontal)})(20,1,0,.5,-14.9,0),function t(n,a,o,r,i,s){let d=new e.PlaneGeometry(20,1);(floorParedefrontal1=new e.Mesh(d,l)).position.set(10,.5,-5),floorParedefrontal1.rotation.y=s,scene.add(floorParedefrontal1)}(20,1,10,.5,-5,-Math.PI/2),function t(n,a,o,r,i,s){let d=new e.PlaneGeometry(20,1);(floorParedefrontal2=new e.Mesh(d,l)).position.set(-10,.5,-5),floorParedefrontal2.rotation.y=s,scene.add(floorParedefrontal2)}(20,1,-10,.5,-5,+Math.PI/2),function t(n,a,o,r,i,s){let d=new e.PlaneGeometry(20,1);(floorParedefrontal3=new e.Mesh(d,l)).position.set(0,.5,4.91),floorParedefrontal3.rotation.y=s,scene.add(floorParedefrontal3)}(20,1,0,.5,4.91,Math.PI),function t(){let n=new e.TextureLoader,a=n.load("./textures/MuchaTseBle.jpg"),o=new e.PlaneGeometry(30,30),r=new e.MeshPhongMaterial({map:a}),i=new e.Mesh(o,r);i.rotation.x=-Math.PI/2,i.position.set(0,0,-5),scene.add(i)}(),d(5,18,-8,.001,-6,0),d(5,16.6,1.7,.002,-8,1.6),d(5,11.5,8.5,.004,-.9,0),d(5,5.5,6.7,.004,-12.2,0),(orbitControls=new a(camera,renderer.domElement)).enableDamping=!0,orbitControls.minDistance=4,orbitControls.maxDistance=4,orbitControls.enablePan=!1,orbitControls.maxPolarAngle=Math.PI/2-.05,orbitControls.minPolarAngle=Math.PI/2-1,orbitControls.enableZoom=!1,orbitControls.update();let c=new e.AudioListener;scene.add(c);let $=new e.Audio(c),m=new e.AudioLoader;m.load("../sound/Golden.mp3",e=>{$.setBuffer(e),$.setLoop(!0),$.setVolume(.5)});let p=document.getElementById("paraTrilha"),h=document.getElementById("ativarTrilha");p.addEventListener("click",()=>{$.stop(),p.style.display="none",h.style.display="block"}),h.addEventListener("click",()=>{$.play(),p.style.display="block",h.style.display="none"});let _=document.createElement("button");_.textContent="Noite",_.setAttribute("id","noite");let f=document.createElement("button");f.textContent="Dia",f.setAttribute("id","dia"),f.style.display="none";let w=document.createElement("div");w.setAttribute("id","home"),w.appendChild(_),w.appendChild(f);let u=new r(w);scene.add(u),u.position.set(-7.5,1.5,-2);var b=document.createElement("div");b.setAttribute("class","balao");var x=document.createElement("p");x.setAttribute("class","mensagem"),x.textContent="Bem vindo, fique a vontade para escolher seu lanche!",b.appendChild(x);let y=new r(b);scene.add(y),y.position.set(9,2,-3);var v=document.querySelector(".pratosProntos"),g=document.querySelector(".legumes"),P=document.querySelector(".bebidas"),E=document.querySelector("#fechar1"),C=document.querySelector("#fechar2"),M=document.querySelector("#fechar3");E.addEventListener("click",()=>{v.classList.remove("ativo"),E.style.display="none"}),C.addEventListener("click",()=>{P.classList.remove("ativo"),C.style.display="none"}),M.addEventListener("click",()=>{g.classList.remove("ativo"),M.style.display="none"});let L=new e.CircleGeometry(.4,32),j=new e.MeshPhongMaterial({color:65280,transparent:!0}),A=new e.Mesh(L,j),S=new e.Mesh(L,j),k=new e.Mesh(L,j);A.rotation.x=-Math.PI/2,A.position.set(8,.01,-4.5),S.rotation.x=-Math.PI/2,S.position.set(7,.01,-12),k.rotation.x=-Math.PI/2,k.position.set(-7.5,.01,-13),scene.add(A),scene.add(S),scene.add(k);let O=document.createElement("button");O.textContent="Entrar",O.setAttribute("class","btnEntrar1");let B=new r(O);scene.add(B),B.position.set(8,1.5,-4.5);let D=document.createElement("button");D.textContent="Entrar",D.setAttribute("class","btnEntrar2");let F=new r(D);scene.add(F),F.position.set(7,1.5,-12);let z=document.createElement("button");z.textContent="Entrar",z.setAttribute("class","btnEntrar3");let I=new r(z);scene.add(I),I.position.set(-7.5,1.5,-13),O.addEventListener("click",()=>{v.classList.add("ativo"),E.style.display="block"}),D.addEventListener("click",()=>{P.classList.add("ativo"),C.style.display="block"}),z.addEventListener("click",()=>{g.classList.add("ativo"),M.style.display="block"});var G=new e.Vector3;let W=new t().setPath("./models/");W.load("personagem.glb",function(t){(model=t.scene).scale.set(.25,.25,.25),model.traverse(function(e){e.isMesh&&(e.castShadow=!0)}),scene.add(model);let a=t.animations,o=new e.AnimationMixer(model),r=new Map;a.filter(e=>"Tpose"!=e.name).forEach(e=>{r.set(e.name,o.clipAction(e))}),characterControls=new n(model,o,r,orbitControls,camera,"Idle"),!function t(){let n=!1,a=new e.Box3().setFromObject(characterControls.model),o=[new e.Box3().setFromObject(H),new e.Box3().setFromObject(U),new e.Box3().setFromObject(Z),new e.Box3().setFromObject(R),new e.Box3().setFromObject(J),new e.Box3().setFromObject(K),new e.Box3().setFromObject(N),new e.Box3().setFromObject(Q),new e.Box3().setFromObject(q),new e.Box3().setFromObject(floorParedefrontal),new e.Box3().setFromObject(floorParedefrontal1),new e.Box3().setFromObject(floorParedefrontal2),new e.Box3().setFromObject(floorParedefrontal3),];var r=new e.Box3().setFromObject(U),i=new e.Box3().setFromObject(A),s=new e.Box3().setFromObject(S),l=new e.Box3().setFromObject(k);o.forEach(e=>{a.intersectsBox(e)&&(n=!0),a.intersectsBox(r)&&(b.style.display="block"),a.intersectsBox(i)?document.querySelector(".btnEntrar1").classList.add("ativo"):document.querySelector(".btnEntrar1").classList.remove("ativo"),a.intersectsBox(l)?document.querySelector(".btnEntrar3").classList.add("ativo"):document.querySelector(".btnEntrar3").classList.remove("ativo"),a.intersectsBox(s)?document.querySelector(".btnEntrar2").classList.add("ativo"):document.querySelector(".btnEntrar2").classList.remove("ativo")}),n?characterControls.model.position.copy(G):G.copy(characterControls.model.position),requestAnimationFrame(t)}()}),passaro=new e.Object3D,W.load("birds.glb",function(t){passaro.add(t.scene),passaro.scale.set(1,1,1),passaro.rotation.y=-1.5,passaro.position.set(-20,12,-30),mixerPassaro=new e.AnimationMixer(passaro),t.animations.forEach(e=>{mixerPassaro.clipAction(e).play(),mixerPassaro.clipAction(e).clampWhenFinished=!0}),scene.add(passaro)});let q=new e.Object3D;W.load("juice_shop.glb",function(e){q.add(e.scene),q.scale.set(30,30,30),q.rotation.y=-1.5,q.position.set(7,1,-14),q.traverse(function(e){e.isMesh&&(e.castShadow=!0)}),scene.add(q)});let R=new e.Object3D;W.load("correio.glb",function(e){R.add(e.scene),R.scale.set(1.3,1.3,1.3),R.rotation.y=0,R.position.set(-7.5,0,-14),scene.add(R)});let T=new e.Object3D;W.load("free_tree_1.glb",function(e){T.add(e.scene),T.scale.set(.01,.01,.01),T.rotation.y=0,T.position.set(-9,0,-14),scene.add(T)});let V=new e.Object3D;W.load("cow.glb",function(t){V.add(t.scene),V.scale.set(.25,.25,.25),V.rotation.y=1,V.position.set(-3,0,-14),scene.add(V),mixerVaca=new e.AnimationMixer(V),t.animations.forEach(e=>{mixerVaca.clipAction(e).play(),mixerVaca.clipAction(e).clampWhenFinished=!0})});let H=new e.Object3D;W.load("barbecue_grill.glb",function(e){H.add(e.scene),H.scale.set(2,2,2),H.rotation.y=3,H.position.set(9,0,-4.5),H.traverse(function(e){e.isMesh&&(e.castShadow=!0)}),scene.add(H)});let U=new e.Object3D;W.load("tonko.glb",function(t){U.add(t.scene),U.scale.set(.0012,.0012,.0012),U.rotation.y=-1,U.position.set(9,0,-3),U.traverse(function(e){e.isMesh&&(e.castShadow=!0)}),mixerCozinheiro=new e.AnimationMixer(U),t.animations.forEach(e=>{mixerCozinheiro.clipAction(e).play(),mixerCozinheiro.clipAction(e).clampWhenFinished=!0}),scene.add(U)}),galinha=new e.Object3D,W.load("chicken_walkcycle.glb",function(t){galinha.add(t.scene),galinha.scale.set(4e-4,4e-4,4e-4),galinha.rotation.y=1.5,galinha.position.set(-9,0,-8),galinha.traverse(function(e){e.isMesh&&(e.castShadow=!0)}),mixergalinha=new e.AnimationMixer(galinha),t.animations.forEach(e=>{mixergalinha.clipAction(e).play(),mixergalinha.clipAction(e).clampWhenFinished=!0}),scene.add(galinha)});let N=new e.Object3D;W.load("poste.glb",function(e){N.add(e.scene),N.scale.set(.3,.3,.3),N.position.set(9.5,0,-14),scene.add(N)});let K=new e.Object3D;W.load("firewood02.glb",function(e){K.add(e.scene),K.scale.set(3,3,3),K.position.set(0,0,-14.2),K.rotation.y=1.5,scene.add(K)});let Z=new e.Object3D;W.load("message_board.glb",function(e){Z.add(e.scene),Z.scale.set(.6,.6,.6),Z.position.set(11.5,-.3,6.2),Z.rotation.y=.8,scene.add(Z)});let J=new e.Object3D;W.load("well.glb",function(e){J.add(e.scene),J.scale.set(1,1,1),J.position.set(-2,0,-5),scene.add(J)});let Q=new e.Object3D;W.load("druids_house_and_shop.glb",function(e){Q.add(e.scene),Q.scale.set(2.8,2.8,2.8),Q.position.set(-7.5,0,1.4),Q.rotation.y=1.6,Q.traverse(function(e){e.isMesh&&(e.castShadow=!0)}),scene.add(Q)});let X=new e.Object3D;W.load("sun.glb",function(e){X.add(e.scene),X.scale.set(.05,.05,.05),X.position.set(50,30,-50),X.rotation.y=1.6,scene.add(X)});let Y=new e.Object3D;W.load("lua.glb",function(e){Y.add(e.scene),Y.scale.set(5,5,5),Y.position.set(50,30,-100),Y.rotation.y=1.6});let ee=new e.Object3D;W.load("directional_arrow_1.glb",function(t){ee.add(t.scene),ee.scale.set(.03,.03,.03),ee.position.set(8,.5,-4.5),ee.rotation.y=2,mixerseta=new e.AnimationMixer(ee),t.animations.forEach(e=>{mixerseta.clipAction(e).play(),mixerseta.clipAction(e).clampWhenFinished=!0}),scene.add(ee)});let et=new e.Object3D;W.load("directional_arrow_1.glb",function(t){et.add(t.scene),et.scale.set(.03,.03,.03),et.position.set(7,.5,-12),et.rotation.y=2.5,mixerseta1=new e.AnimationMixer(et),t.animations.forEach(e=>{mixerseta1.clipAction(e).play(),mixerseta1.clipAction(e).clampWhenFinished=!0}),scene.add(et)});let en=new e.Object3D;W.load("directional_arrow_1.glb",function(t){en.add(t.scene),en.scale.set(.03,.03,.03),en.position.set(-7.5,.5,-13),en.rotation.y=3.5,mixerseta2=new e.AnimationMixer(en),t.animations.forEach(e=>{mixerseta2.clipAction(e).play(),mixerseta2.clipAction(e).clampWhenFinished=!0}),scene.add(en)});let ea=new e.Object3D;for(let eo=0;eo<30;eo++)W.load("pedra.glb",function(e){ea.add(e.scene),(rock=ea.clone()).scale.set(.1*Math.random()-.15,.1*Math.random()-.01,.1*Math.random()-.15),rock.position.set(20*Math.random()-10,0,20*Math.random()-15),scene.add(rock),window.innerWidth<768?scene.remove(rock):scene.add(rock)});let er=new e.Object3D;for(let ei=0;ei<20;ei++)W.load("clouds.glb",function(e){er.add(e.scene),(clouund=er.clone()).scale.x=.01,clouund.scale.z=.01,clouund.scale.y=.01*Math.random()-.001,clouund.position.set(100*Math.random()-55,15,100*Math.random()-55),clouund.traverse(function(e){e.isMesh&&(e.material.transparent=!0,e.material.opacity=.01)}),window.innerWidth<768?scene.remove(clouund):scene.add(clouund)});var es=new e.AmbientLight(16777215,.7);let el=new e.DirectionalLight(16580566,1);el.position.set(50,30,-50),el.castShadow=!0,el.shadow.camera.top=50,el.shadow.camera.bottom=-50,el.shadow.camera.left=-50,el.shadow.camera.right=50,el.shadow.camera.near=.1,el.shadow.camera.far=200,el.shadow.mapSize.width=4096,el.shadow.mapSize.height=4096,scene.add(el),scene.add(es);var ed=new e.AmbientLight(9605778,1);let ec=new e.DirectionalLight(11531263,1);ec.position.set(50,30,-100),ec.castShadow=!0,ec.shadow.camera.top=50,ec.shadow.camera.bottom=-50,ec.shadow.camera.left=-50,ec.shadow.camera.right=50,ec.shadow.camera.near=.1,ec.shadow.camera.far=200,ec.shadow.mapSize.width=4096,ec.shadow.mapSize.height=4096;let e$=new e.PointLight(16579698,10,10,1);e$.position.set(9.5,2,-13);let em=new e.PointLight(16719360,1,1,4);em.position.set(9,1,-4.5);let ep=new e.PointLight(16777215,10,40,0);ep.position.set(50,30,-80);let eh=new e.PointLight(65280,10,1,0);eh.position.set(8,.01,-4.5),scene.add(eh);let e_=new e.PointLight(65280,10,1,0);e_.position.set(7,.01,-12),scene.add(e_);let ef=new e.PointLight(65280,10,1,0);ef.position.set(-7.5,.01,-13),scene.add(ef);let ew=document.getElementById("screen");var eu=!1;mudardisplayBaixo=document.querySelector(".display"),mudardisplayAlto=document.getElementById("adicionar"),mudardisplayBaixo.addEventListener("click",()=>{renderer.shadowMap.enabled=!1,el.castShadow=!1,ec.castShadow=!1,scene.remove(ep),scene.remove(em),scene.remove(e$),scene.remove(passaro),scene.remove(eP),scene.remove(el),scene.remove(ec),scene.remove(galinha),scene.remove(clouund),eu=!0,ew.style.display="block",ew.addEventListener("animationend",function(){this.style.display="none"})}),mudardisplayAlto.addEventListener("click",()=>{renderer.shadowMap.enabled=!0,el.castShadow=!0,ec.castShadow=!0,scene.add(passaro),scene.add(eP),scene.add(el),scene.add(galinha),eu=!1,ew.style.display="block",ew.addEventListener("animationend",function(){this.style.display="none"})});let eb=[],ex=[];rainGeo=new e.BufferGeometry;for(let ey=0;ey<rainCount;ey++)rainDrop=new e.Vector3(400*Math.random()-200,500*Math.random()-250,400*Math.random()-200),eb.push(400*Math.random()-200),eb.push(500*Math.random()-250),eb.push(400*Math.random()-200),ex.push(30);rainGeo.setAttribute("position",new e.BufferAttribute(new Float32Array(eb),4)),rainGeo.setAttribute("size",new e.BufferAttribute(new Float32Array(ex),1));let ev=new e.PointsMaterial({color:14417149,size:.2,transparent:!0});rain=new e.Points(rainGeo,ev),_.addEventListener("click",function(){ew.addEventListener("animationend",function(){this.style.display="none"}),scene.fog=new e.FogExp2(1118495,.002),renderer.setClearColor(scene.fog.color),scene.remove(el),scene.remove(es),scene.remove(passaro),scene.remove(X),scene.add(Y),!0===eu?(scene.remove(ec),scene.remove(ep),scene.remove(em),scene.remove(e$)):(scene.add(ec),scene.add(e$),scene.add(em),scene.add(ep)),scene.add(ed),scene.add(rain),ew.style.display="block",_.style.display="none",f.style.display="block"}),f.addEventListener("click",function(){scene.fog=new e.FogExp2(8633855,.002),renderer.setClearColor(scene.fog.color),!0===eu?(scene.remove(el),scene.remove(passaro)):(scene.add(el),scene.add(passaro)),scene.add(es),scene.add(X),scene.remove(ep),scene.remove(em),scene.remove(e$),scene.remove(Y),scene.remove(ec),scene.remove(ed),scene.remove(rain),ew.style.display="block",_.style.display="block",f.style.display="none",ew.addEventListener("animationend",function(){this.style.display="none"})});let e1=`
+import * as THREE from '../build/three.module.js';
+import {GLTFLoader} from '../jsm/GLTFLoader.js';
+import { CharacterControls } from './charaterControls.js';
+import {OrbitControls} from '../jsm/OrbitControls.js';
+import {CSS2DRenderer, CSS2DObject} from '../jsm/CSS2DRenderer.js'
+
+let scene,camera,renderer,model,characterControls,orbitControls,keysPressed,labelRenderer,mixer,mixerseta,mixerseta1,mixerseta2, mixer3,mixerCozinheiro,mixergalinha,mixerPassaro,mixerVaca,rainGeo,rain,rainDrop,cloudGeo,rainCount = 3000,clouds = [],leavesMaterial,andando = true,andandoPassaro = true,girando = true,flutuando = true,galinha,passaro,floorParedefrontal,floorParedefrontal1,floorParedefrontal2,floorParedefrontal3,rock,clouund,mudardisplayBaixo,mudardisplayAlto 
+function init() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 300);
+    camera.position.z = 1;
+    camera.rotation.x = 1.16;
+    camera.rotation.z = 0.27;
+
+    //renderer
+    renderer = new THREE.WebGLRenderer({
+        antialias: true
+    });
+    scene.fog = new THREE.FogExp2(0x87ceeb, 0.002);
+    renderer.setClearColor(scene.fog.color);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true
+    
+    document.body.appendChild(renderer.domElement);
+
+    labelRenderer = new CSS2DRenderer()
+    labelRenderer.setSize(window.innerWidth, window.innerHeight)
+    labelRenderer.domElement.style.position = 'absolute'
+    labelRenderer.domElement.style.top = '0px'
+    labelRenderer.domElement.style.pointerEvents = 'none'
+    document.body.appendChild(labelRenderer.domElement)
+
+    //cercas
+    //textura da cerca
+    const textureLoader = new THREE.TextureLoader();
+    const placeholderParedefrontal = textureLoader.load("./textures/cerca.png");
+    placeholderParedefrontal.wrapS = THREE.RepeatWrapping;
+    placeholderParedefrontal.wrapT = THREE.RepeatWrapping;
+    placeholderParedefrontal.repeat.set(5,1)
+    const materialParedefrontal = new THREE.MeshPhongMaterial({ map: placeholderParedefrontal,transparent: true,side: THREE.DoubleSide})
+
+    //cercas frontal
+    cerca(20,1,0,0.5,-14.9, 0)
+    cerca2(20,1,10, 0.5, -5, - Math.PI / 2)
+    cerca3(20,1,-10, 0.5, -5, + Math.PI / 2)
+    cerca4(20,1,0, 0.5, 4.91, Math.PI)
+
+    function cerca(largura, espessura,x,y,z, rotacao){
+        const geometryParedefrontal = new THREE.PlaneGeometry(largura, espessura);
+        floorParedefrontal = new THREE.Mesh(geometryParedefrontal,materialParedefrontal)
+        floorParedefrontal.position.set(x,y,z)
+        floorParedefrontal.rotation.y = rotacao
+        scene.add(floorParedefrontal)
+    }
+
+    function cerca2(largura, espessura,x,y,z, rotacao){
+        const geometryParedefrontal = new THREE.PlaneGeometry(largura, espessura);
+        floorParedefrontal1 = new THREE.Mesh(geometryParedefrontal,materialParedefrontal)
+        floorParedefrontal1.position.set(x,y,z)
+        floorParedefrontal1.rotation.y = rotacao
+        scene.add(floorParedefrontal1)
+    }
+
+    function cerca3(largura, espessura,x,y,z, rotacao){
+        const geometryParedefrontal = new THREE.PlaneGeometry(largura, espessura);
+        floorParedefrontal2 = new THREE.Mesh(geometryParedefrontal,materialParedefrontal)
+        floorParedefrontal2.position.set(x,y,z)
+        floorParedefrontal2.rotation.y = rotacao
+        scene.add(floorParedefrontal2)
+    }
+
+    function cerca4(largura, espessura,x,y,z, rotacao){
+        const geometryParedefrontal = new THREE.PlaneGeometry(largura, espessura);
+        floorParedefrontal3 = new THREE.Mesh(geometryParedefrontal,materialParedefrontal)
+        floorParedefrontal3.position.set(x,y,z)
+        floorParedefrontal3.rotation.y = rotacao
+        scene.add(floorParedefrontal3)
+    }
+
+    //texturas da paredes
+    generateFloor()
+    generateEstrada(5, 18, -8, 0.001, -6, 0)
+    generateEstrada(5, 16.6,1.7, 0.002,-8,1.6)
+    generateEstrada(5, 11.5,8.5, 0.004, -0.9,0)
+    generateEstrada(5, 5.5,6.7, 0.004, -12.2,0)
+
+    //chao base
+    function generateFloor() {
+        const textureLoader = new THREE.TextureLoader();
+        const placeholder = textureLoader.load("./textures/MuchaTseBle.jpg");
+        const geometry = new THREE.PlaneGeometry(30, 30);
+        const material = new THREE.MeshPhongMaterial({ map: placeholder})
+        const floor = new THREE.Mesh(geometry, material)
+        floor.rotation.x = - Math.PI / 2
+        floor.position.set(0,0,-5)
+        scene.add(floor)
+    }
+
+    //estradas
+    function generateEstrada(largura, espessura, x,y,z,rotacao) {
+        const textureLoader = new THREE.TextureLoader();
+        const placeholder = textureLoader.load("./textures/estrada.png");
+        const geometry = new THREE.PlaneGeometry(largura, espessura);
+        const material = new THREE.MeshPhongMaterial({ map: placeholder,transparent: true,})
+        const floor = new THREE.Mesh(geometry, material)
+        floor.castShadow = true;
+        floor.receiveShadow = true;
+        floor.rotation.x = - Math.PI / 2
+        floor.rotation.z = rotacao
+        floor.position.set(x,y,z)
+        scene.add(floor)
+    }
+
+    //controles
+    orbitControls = new OrbitControls(camera, renderer.domElement);
+    orbitControls.enableDamping = true
+    orbitControls.minDistance = 4
+    orbitControls.maxDistance = 4
+    orbitControls.enablePan = false
+    orbitControls.maxPolarAngle = Math.PI / 2 - 0.05
+    orbitControls.minPolarAngle = Math.PI / 2 - 1
+    orbitControls.enableZoom = false
+    orbitControls.update();
+
+    //SOM
+    const listerner = new THREE.AudioListener()
+    scene.add(listerner)
+
+    //trila sonora
+    const trilha = new THREE.Audio(listerner)
+    const loaderSoundTrila = new THREE.AudioLoader()
+    loaderSoundTrila.load('../sound/Golden.mp3', (buffer) =>{
+        trilha.setBuffer(buffer)
+        trilha.setLoop(true)
+        trilha.setVolume(0.5)
+    })
+
+    const btnPararSom = document.getElementById('paraTrilha')
+    const btnAtivarSom = document.getElementById('ativarTrilha')
+    
+    btnPararSom.addEventListener('click', ()=>{
+        trilha.stop()
+        btnPararSom.style.display = 'none'
+        btnAtivarSom.style.display = 'block'
+    })
+
+    btnAtivarSom.addEventListener('click', ()=>{
+        trilha.play()
+        btnPararSom.style.display = 'block'
+        btnAtivarSom.style.display = 'none'
+    })
+
+    //Botão para dormir
+    const btnMudarClimaNoite = document.createElement('button')
+    btnMudarClimaNoite.textContent = 'Noite'
+    btnMudarClimaNoite.setAttribute('id', 'noite')
+
+    const btnMudarClimaDia = document.createElement('button')
+    btnMudarClimaDia.textContent = 'Dia'
+    btnMudarClimaDia.setAttribute('id', 'dia')
+    btnMudarClimaDia.style.display = 'none'
+
+    const divMudarClimaNoite = document.createElement('div')
+    divMudarClimaNoite.setAttribute('id', 'home')
+    divMudarClimaNoite.appendChild(btnMudarClimaNoite)
+    divMudarClimaNoite.appendChild(btnMudarClimaDia)
+    
+    const cPointLabel2 = new CSS2DObject(divMudarClimaNoite)
+    scene.add(cPointLabel2)
+    cPointLabel2.position.set(-7.5, 1.5, -2)
+
+    //balão dialogo
+    var divBalao = document.createElement('div');
+    divBalao.setAttribute('class', 'balao')
+    var menssagem = document.createElement('p');
+    menssagem.setAttribute('class', 'mensagem');
+    menssagem.textContent = 'Bem vindo, fique a vontade para escolher seu lanche!'
+    divBalao.appendChild(menssagem)
+
+    const divNaCena = new CSS2DObject(divBalao)
+    scene.add(divNaCena)
+    divNaCena.position.set(9, 2, -3)
+
+    //pratos prontos
+    var pratosProntos = document.querySelector('.pratosProntos')
+    var pratosLegumes = document.querySelector('.legumes')
+    var bebidas = document.querySelector('.bebidas')
+
+    var btnfechar1 = document.querySelector('#fechar1')
+    var btnfechar2 = document.querySelector('#fechar2')
+    var btnfechar3 = document.querySelector('#fechar3')
+    btnfechar1.addEventListener('click',()=>{
+        pratosProntos.classList.remove('ativo')
+        btnfechar1.style.display = 'none'
+    })
+    btnfechar2.addEventListener('click',()=>{
+        bebidas.classList.remove('ativo')
+        btnfechar2.style.display = 'none'
+    })
+    btnfechar3.addEventListener('click',()=>{
+        
+        pratosLegumes.classList.remove('ativo')
+        btnfechar3.style.display = 'none'
+    })
+
+    //colisões para entrar nas sessões
+    
+    const geometryPortal1 = new THREE.CircleGeometry(0.4, 32 );
+    const materialportal1 = new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, })
+    const portal1 = new THREE.Mesh(geometryPortal1, materialportal1)
+    const portal2 = new THREE.Mesh(geometryPortal1, materialportal1)
+    const portal3 = new THREE.Mesh(geometryPortal1, materialportal1)
+    portal1.rotation.x = - Math.PI / 2
+    portal1.position.set(8, 0.01, -4.5)
+    portal2.rotation.x = - Math.PI / 2
+    portal2.position.set(7, 0.01, -12)
+    portal3.rotation.x = - Math.PI / 2
+    portal3.position.set(-7.5, 0.01, -13)
+    scene.add(portal1)
+    scene.add(portal2)
+    scene.add(portal3)
+
+    const BtnEntra1 = document.createElement('button')
+    BtnEntra1.textContent = 'Entrar'
+    BtnEntra1.setAttribute('class', 'btnEntrar1')
+    const BtnEntraCena1 = new CSS2DObject(BtnEntra1)
+    scene.add(BtnEntraCena1)
+    BtnEntraCena1.position.set(8, 1.5, -4.5)
+
+    const BtnEntra2 = document.createElement('button')
+    BtnEntra2.textContent = 'Entrar'
+    BtnEntra2.setAttribute('class', 'btnEntrar2')
+    const BtnEntraCena2 = new CSS2DObject(BtnEntra2)
+    scene.add(BtnEntraCena2)
+    BtnEntraCena2.position.set(7, 1.5, -12)
+
+    const BtnEntra3 = document.createElement('button')
+    BtnEntra3.textContent = 'Entrar'
+    BtnEntra3.setAttribute('class', 'btnEntrar3')
+    const BtnEntraCena3 = new CSS2DObject(BtnEntra3)
+    scene.add(BtnEntraCena3)
+    BtnEntraCena3.position.set(-7.5, 1.5, -13)
+
+
+    BtnEntra1.addEventListener('click',()=>{
+        pratosProntos.classList.add('ativo')
+        btnfechar1.style.display = 'block'
+    })
+
+    BtnEntra2.addEventListener('click',()=>{
+        bebidas.classList.add('ativo')
+        btnfechar2.style.display = 'block'
+    })
+
+    BtnEntra3.addEventListener('click',()=>{
+        pratosLegumes.classList.add('ativo')
+        btnfechar3.style.display = 'block'
+    })
+    
+    //MODELOS 3D DA CENA
+    var characterPreviousPosition = new THREE.Vector3();
+
+    //personagem controlado
+    const loader = new GLTFLoader().setPath('./models/');
+    loader.load('personagem.glb', function (glft) {
+        model = glft.scene
+        model.scale.set(0.25, 0.25, 0.25)
+        model.traverse(function (object) {
+            if (object.isMesh) object.castShadow = true;
+        });
+        scene.add(model)
+        const gltfAnimations = glft.animations
+        const mixer = new THREE.AnimationMixer(model)
+        const animationsMap = new Map()
+        gltfAnimations.filter(a => a.name != 'Tpose').forEach((a)=>{
+            animationsMap.set(a.name, mixer.clipAction(a))
+        })
+        characterControls = new CharacterControls(model, mixer, animationsMap, orbitControls, camera, 'Idle')
+
+        //colisão
+        function checkCollisions() {
+            let collided = false;
+            const characterBoundingBox = new THREE.Box3().setFromObject(characterControls.model);
+
+            const objectsBoundingBoxes = [
+                new THREE.Box3().setFromObject(fogueira),
+                new THREE.Box3().setFromObject(cozinheiro),
+                new THREE.Box3().setFromObject(placa),
+                new THREE.Box3().setFromObject(mailBox),
+                new THREE.Box3().setFromObject(poco),
+                new THREE.Box3().setFromObject(lenha),
+                new THREE.Box3().setFromObject(poste),
+                new THREE.Box3().setFromObject(casa),
+                new THREE.Box3().setFromObject(shop),
+                new THREE.Box3().setFromObject(floorParedefrontal),
+                new THREE.Box3().setFromObject(floorParedefrontal1),
+                new THREE.Box3().setFromObject(floorParedefrontal2),
+                new THREE.Box3().setFromObject(floorParedefrontal3),
+            ];
+            var colisionCozinheiro = new THREE.Box3().setFromObject(cozinheiro)
+            var colisionPortal1 = new THREE.Box3().setFromObject(portal1)
+            var colisionPortal2 = new THREE.Box3().setFromObject(portal2)
+            var colisionPortal3 = new THREE.Box3().setFromObject(portal3)
+
+            objectsBoundingBoxes.forEach(objectBoundingBox => {
+                if (characterBoundingBox.intersectsBox(objectBoundingBox)) {
+                    collided = true;
+                }
+
+                if (characterBoundingBox.intersectsBox(colisionCozinheiro)) {
+                    divBalao.style.display = 'block'
+                }
+
+                if (characterBoundingBox.intersectsBox(colisionPortal1)) {
+                    document.querySelector('.btnEntrar1').classList.add('ativo')
+                }else{
+                    document.querySelector('.btnEntrar1').classList.remove('ativo')
+                }
+
+                if (characterBoundingBox.intersectsBox(colisionPortal3)) {
+                    document.querySelector('.btnEntrar3').classList.add('ativo')
+                }else{
+                    document.querySelector('.btnEntrar3').classList.remove('ativo')
+                }
+
+                if (characterBoundingBox.intersectsBox(colisionPortal2)) {
+                    document.querySelector('.btnEntrar2').classList.add('ativo')
+                }else{
+                    document.querySelector('.btnEntrar2').classList.remove('ativo')
+                }
+            });
+
+            if (collided) {
+                characterControls.model.position.copy(characterPreviousPosition);
+            } else {
+                characterPreviousPosition.copy(characterControls.model.position);
+            }
+            requestAnimationFrame(checkCollisions)
+        }
+        
+        checkCollisions(); 
+    });
+
+    //passaro
+    passaro = new THREE.Object3D()
+    loader.load('birds.glb', function (glft) {
+        passaro.add(glft.scene)
+        passaro.scale.set(1, 1, 1)
+        passaro.rotation.y = -1.5
+        passaro.position.set(-20, 12, -30)
+
+        mixerPassaro = new THREE.AnimationMixer(passaro);
+        glft.animations.forEach((clip) => {
+            mixerPassaro.clipAction(clip).play();
+            mixerPassaro.clipAction(clip).clampWhenFinished = true;
+        });
+        scene.add(passaro)
+    })
+
+    //shop
+    const shop = new THREE.Object3D()
+    loader.load('juice_shop.glb', function (glft) {
+        shop.add(glft.scene)
+        shop.scale.set(30, 30, 30)
+        shop.rotation.y = -1.5
+        shop.position.set(7, 1, -14)
+        shop.traverse(function (object) {
+            if (object.isMesh) object.castShadow = true;
+        });
+        scene.add(shop)
+    })
+
+    //mailBox
+    const mailBox = new THREE.Object3D()
+    loader.load('correio.glb', function (glft) {
+        mailBox.add(glft.scene)
+        mailBox.scale.set(1.3, 1.3, 1.3)
+        mailBox.rotation.y = 0
+        mailBox.position.set(-7.5, 0, -14)
+        scene.add(mailBox)
+    })
+
+    //arvore
+    const arvore = new THREE.Object3D()
+    loader.load('free_tree_1.glb', function (glft) {
+        arvore.add(glft.scene)
+        arvore.scale.set(0.01, 0.01, 0.01)
+        arvore.rotation.y = 0
+        arvore.position.set(-9, 0, -14)
+        scene.add(arvore)
+    })
+
+    //vaca
+    const vaca = new THREE.Object3D()
+    loader.load('cow.glb', function (glft) {
+        vaca.add(glft.scene)
+        vaca.scale.set(0.25, 0.25, 0.25)
+        vaca.rotation.y = 1
+        vaca.position.set(-3, 0, -14)
+        scene.add(vaca)
+
+        mixerVaca = new THREE.AnimationMixer(vaca);
+        glft.animations.forEach((clip) => {
+            mixerVaca.clipAction(clip).play();
+            mixerVaca.clipAction(clip).clampWhenFinished = true;
+        });
+    })
+
+    //fogueira
+    const fogueira = new THREE.Object3D()
+    loader.load('barbecue_grill.glb', function (glft) {
+        fogueira.add(glft.scene)
+        fogueira.scale.set(2, 2, 2)
+        fogueira.rotation.y = 3
+        fogueira.position.set(9, 0, -4.5)
+        fogueira.traverse(function (object) {
+            if (object.isMesh) object.castShadow = true;
+        });
+        scene.add(fogueira)
+    })
+
+    //cozinheiro
+    const cozinheiro = new THREE.Object3D()
+    loader.load('tonko.glb', function (glft) {
+        cozinheiro.add(glft.scene)
+        cozinheiro.scale.set(0.0012, 0.0012, 0.0012)
+        cozinheiro.rotation.y = -1
+        cozinheiro.position.set(9, 0, -3)
+        cozinheiro.traverse(function (object) {
+            if (object.isMesh) object.castShadow = true;
+        });
+
+        mixerCozinheiro = new THREE.AnimationMixer(cozinheiro);
+        glft.animations.forEach((clip) => {
+            mixerCozinheiro.clipAction(clip).play();
+            mixerCozinheiro.clipAction(clip).clampWhenFinished = true;
+        });
+        scene.add(cozinheiro)
+    })
+
+    //galinha
+    galinha = new THREE.Object3D()
+    loader.load('chicken_walkcycle.glb', function (glft) {
+        galinha.add(glft.scene)
+        galinha.scale.set(0.0004, 0.0004, 0.0004)
+        galinha.rotation.y = 1.5
+        galinha.position.set(-9, 0, -8)
+        galinha.traverse(function (object) {
+            if (object.isMesh) object.castShadow = true;
+        });
+
+        mixergalinha = new THREE.AnimationMixer(galinha);
+        glft.animations.forEach((clip) => {
+            mixergalinha.clipAction(clip).play();
+            mixergalinha.clipAction(clip).clampWhenFinished = true;
+        });
+        scene.add(galinha)
+    })
+
+    //poste
+    const poste = new THREE.Object3D()
+    loader.load('poste.glb', function (glft) {
+        poste.add(glft.scene)
+        poste.scale.set(0.3, 0.3, 0.3)
+        poste.position.set(9.5, 0, -14)
+        scene.add(poste)
+    })
+
+    //lenha
+    const lenha = new THREE.Object3D()
+    loader.load('firewood02.glb', function (glft) {
+        lenha.add(glft.scene)
+        lenha.scale.set(3, 3, 3)
+        lenha.position.set(0, 0, -14.2)
+        lenha.rotation.y = 1.5
+        scene.add(lenha)
+    })
+
+    //placa
+    const placa = new THREE.Object3D()
+    loader.load('banco_de_madeira.glb', function (glft) {
+        placa.add(glft.scene)
+        placa.scale.set(0.3, 0.3, 0.3)
+        placa.position.set(9.5, 0, 3.5)
+        placa.rotation.y = Math.PI
+        scene.add(placa)
+    })
+
+    //poco
+    const poco = new THREE.Object3D()
+    loader.load('well.glb', function (glft) {
+        poco.add(glft.scene)
+        poco.scale.set(1, 1, 1)
+        poco.position.set(-2, 0, -5)
+        scene.add(poco)
+    })
+
+    //casa
+    const casa = new THREE.Object3D()
+    loader.load('druids_house_and_shop.glb', function (glft) {
+        casa.add(glft.scene)
+        casa.scale.set(2.8, 2.8, 2.8)
+        casa.position.set(-7.5, 0, 1.4)
+        casa.rotation.y = 1.6
+        casa.traverse(function (object) {
+            if (object.isMesh) object.castShadow = true;
+        });
+        scene.add(casa)
+    })
+
+    //sol
+    const sol = new THREE.Object3D()
+    loader.load('sun.glb', function (glft) {
+        sol.add(glft.scene)
+        sol.scale.set(0.05, 0.05, 0.05)
+        sol.position.set(50, 30, -50)
+        sol.rotation.y = 1.6
+        scene.add(sol)
+    })
+
+    //lua
+    const lua = new THREE.Object3D()
+    loader.load('lua.glb', function (glft) {
+        lua.add(glft.scene)
+        lua.scale.set(5, 5, 5)
+        lua.position.set(50, 30, -100)
+        lua.rotation.y = 1.6
+    })
+
+    //seta
+    const seta = new THREE.Object3D()
+    loader.load('directional_arrow_1.glb', function (glft) {
+        seta.add(glft.scene)
+        seta.scale.set(0.03, 0.03, 0.03)
+        seta.position.set(8, 0.5, -4.5)
+        seta.rotation.y = 2
+        mixerseta = new THREE.AnimationMixer(seta);
+        glft.animations.forEach((clip) => {
+            mixerseta.clipAction(clip).play();
+            mixerseta.clipAction(clip).clampWhenFinished = true;
+        });
+        scene.add(seta)
+    })
+
+    //seta1
+    const seta1 = new THREE.Object3D()
+    loader.load('directional_arrow_1.glb', function (glft) {
+        seta1.add(glft.scene)
+        seta1.scale.set(0.03, 0.03, 0.03)
+        seta1.position.set(7, 0.5, -12)
+        seta1.rotation.y = 2.5
+        mixerseta1 = new THREE.AnimationMixer(seta1);
+        glft.animations.forEach((clip) => {
+            mixerseta1.clipAction(clip).play();
+            mixerseta1.clipAction(clip).clampWhenFinished = true;
+        });
+        scene.add(seta1)
+    })
+
+    //seta2
+    const seta2 = new THREE.Object3D()
+    loader.load('directional_arrow_1.glb', function (glft) {
+        seta2.add(glft.scene)
+        seta2.scale.set(0.03, 0.03, 0.03)
+        seta2.position.set(-7.5, 0.5, -13)
+        seta2.rotation.y = 3.5
+        mixerseta2 = new THREE.AnimationMixer(seta2);
+        glft.animations.forEach((clip) => {
+            mixerseta2.clipAction(clip).play();
+            mixerseta2.clipAction(clip).clampWhenFinished = true;
+        });
+        scene.add(seta2)
+    })
+
+    //pedras
+    const pedras = new THREE.Object3D()
+    for(let i = 0; i < 30; i++){
+        loader.load('pedra.glb', function (glft) {
+            pedras.add(glft.scene)
+            rock = pedras.clone()
+            rock.scale.set(
+                Math.random() * 0.1 - 0.15,
+                Math.random() * 0.1 - 0.01,
+                Math.random() * 0.1 - 0.15
+            )
+            rock.position.set(
+                Math.random() * 20 - 10,
+                0,
+                Math.random() * 20 - 15
+            );
+            scene.add(rock)
+            if(window.innerWidth < 768){
+                scene.remove(rock)
+            }else{
+                scene.add(rock)
+            }  
+        })
+    }
+
+    //nuvens
+    const nuvens = new THREE.Object3D()
+    for(let i = 0; i < 20; i++){
+        loader.load('clouds.glb', function (glft) {
+            nuvens.add(glft.scene)
+            clouund = nuvens.clone()
+            clouund.scale.x = 0.01
+            clouund.scale.z = 0.01
+            clouund.scale.y = Math.random() * 0.01 - 0.001,
+            clouund.position.set(
+                Math.random() * 100 - 55,
+                15,
+                Math.random() * 100 - 55
+            );
+            
+            clouund.traverse(function (child) {
+                if (child.isMesh) {
+                    child.material.transparent = true;
+                    child.material.opacity = 0.01;
+                }
+            });
+            if(window.innerWidth < 768){
+                scene.remove(clouund)
+            }else{
+                scene.add(clouund)
+            }
+        })
+    }
+
+    //luzes
+    var luzAmbientedia = new THREE.AmbientLight(0xffffff, 0.7)
+    const dirLight = new THREE.DirectionalLight(0xfcffd6, 1)
+    dirLight.position.set(50, 30, -50);
+    dirLight.castShadow = true;
+    dirLight.shadow.camera.top = 50;
+    dirLight.shadow.camera.bottom = - 50;
+    dirLight.shadow.camera.left = - 50;
+    dirLight.shadow.camera.right = 50;
+    dirLight.shadow.camera.near = 0.1;
+    dirLight.shadow.camera.far = 200;
+    dirLight.shadow.mapSize.width = 4096;
+    dirLight.shadow.mapSize.height = 4096;
+    scene.add(dirLight);
+    scene.add(luzAmbientedia)
+    // scene.add( new THREE.CameraHelper(dirLight.shadow.camera))
+
+    var LuzAmbienteNoite = new THREE.AmbientLight(0x929292, 1)
+    const dirLight2 = new THREE.DirectionalLight(0xaff3ff, 1)
+    dirLight2.position.set(50, 30, -100);
+    dirLight2.castShadow = true;
+    dirLight2.shadow.camera.top = 50;
+    dirLight2.shadow.camera.bottom = - 50;
+    dirLight2.shadow.camera.left = - 50;
+    dirLight2.shadow.camera.right = 50;
+    dirLight2.shadow.camera.near = 0.1;
+    dirLight2.shadow.camera.far = 200;
+    dirLight2.shadow.mapSize.width = 4096;
+    dirLight2.shadow.mapSize.height = 4096;  
+
+    //pontos de luzes
+    const flash = new THREE.PointLight(0xfcfc72, 10, 10, 1);
+    flash.position.set(9.5, 2, -13);
+
+    const flash2 = new THREE.PointLight(0xff1e00, 1, 1, 4);
+    flash2.position.set(9, 1, -4.5);
+
+    const flash3 = new THREE.PointLight(0xffffff, 10, 40, 0);
+    flash3.position.set(50, 30, -80);
+
+    const flash4 = new THREE.PointLight(0x00ff00, 10, 1, 0);
+    flash4.position.set(8, 0.01, -4.5);
+    scene.add(flash4)
+
+    const flash5 = new THREE.PointLight(0x00ff00, 10, 1, 0);
+    flash5.position.set(7, 0.01, -12);
+    scene.add(flash5)
+
+    const flash6 = new THREE.PointLight(0x00ff00, 10, 1, 0);
+    flash6.position.set(-7.5, 0.01, -13);
+    scene.add(flash6)
+  
+    const screen = document.getElementById('screen');
+
+    var modoSuave = false
+    mudardisplayBaixo = document.querySelector('.display')
+    mudardisplayAlto = document.getElementById('adicionar')
+
+    mudardisplayBaixo.addEventListener('click',()=>{
+        renderer.shadowMap.enabled = false
+        dirLight.castShadow = false
+        dirLight2.castShadow = false
+        scene.remove(flash3)
+        scene.remove(flash2)
+        scene.remove(flash)
+        scene.remove(passaro)
+        scene.remove( instancedMesh );
+        scene.remove(dirLight);
+        scene.remove(dirLight2);
+        scene.remove(galinha);
+        scene.remove(clouund)
+        modoSuave = true 
+        screen.style.display = 'block';
+
+        screen.addEventListener('animationend', function() {
+            this.style.display = 'none';
+        });  
+
+    })
+
+    mudardisplayAlto.addEventListener('click',()=>{
+        renderer.shadowMap.enabled = true
+        dirLight.castShadow = true
+        dirLight2.castShadow = true
+        scene.add(passaro)
+        scene.add(instancedMesh);
+        scene.add(dirLight);
+        scene.add(galinha);
+        modoSuave = false 
+        screen.style.display = 'block';
+
+        screen.addEventListener('animationend', function() {
+            this.style.display = 'none';
+        });    
+    })
+
+    //nuvens e estrelas
+    let positions = []
+    let sizes = []
+
+    rainGeo = new THREE.BufferGeometry();
+    for (let i = 0; i < 
+        rainCount; i++) {
+        rainDrop = new THREE.Vector3(
+            Math.random() * 400 - 200,
+            Math.random() * 500 - 250,
+            Math.random() * 400 - 200
+        );
+        positions.push(Math.random() * 400 - 200)
+        positions.push(Math.random() * 500 - 250)
+        positions.push(Math.random() * 400 - 200)
+        sizes.push(30)
+    }
+
+    rainGeo.setAttribute(
+        "position",
+        new THREE.BufferAttribute(new Float32Array(positions), 4)
+    );
+    rainGeo.setAttribute(
+        "size",
+        new THREE.BufferAttribute(new Float32Array(sizes), 1)
+    );
+    let rainMaterial = new THREE.PointsMaterial({
+        color: 0xdbfcfd,
+        size: 0.2,
+        transparent: true
+    });
+    rain = new THREE.Points(rainGeo, rainMaterial);
+
+    //função para mudar noite/dia
+    btnMudarClimaNoite.addEventListener('click', function() {  
+        screen.addEventListener('animationend', function() {
+            this.style.display = 'none';
+        });
+        
+        scene.fog = new THREE.FogExp2(0x11111f, 0.002);
+        renderer.setClearColor(scene.fog.color);
+        
+        scene.remove(dirLight)
+        scene.remove(luzAmbientedia)
+        scene.remove(passaro)
+        scene.remove(sol)
+        scene.add(lua)
+
+        if(modoSuave === true){
+            scene.remove(dirLight2)
+            scene.remove(flash3)
+            scene.remove(flash2)
+            scene.remove(flash)
+        }else{
+            scene.add(dirLight2)
+            scene.add(flash)
+            scene.add(flash2)
+            scene.add(flash3)
+        }
+        scene.add(LuzAmbienteNoite)
+        scene.add(rain);
+        
+        screen.style.display = 'block';
+        btnMudarClimaNoite.style.display = 'none'
+        btnMudarClimaDia.style.display = 'block'
+       
+    });
+
+    btnMudarClimaDia.addEventListener('click', function() {  
+        scene.fog = new THREE.FogExp2(0x83bdff, 0.002);
+        renderer.setClearColor(scene.fog.color);
+        
+        if(modoSuave === true){
+            scene.remove(dirLight)
+            scene.remove(passaro)
+        }else{
+            scene.add(dirLight)
+            scene.add(passaro)
+        }
+        scene.add(luzAmbientedia)
+        scene.add(sol)
+        scene.remove(flash3)
+        scene.remove(flash2)
+        scene.remove(flash)
+        scene.remove(lua)
+        scene.remove(dirLight2);
+        scene.remove(LuzAmbienteNoite)
+        scene.remove(rain);
+        screen.style.display = 'block';
+        btnMudarClimaNoite.style.display = 'block'
+        btnMudarClimaDia.style.display = 'none'
+
+        screen.addEventListener('animationend', function() {
+            this.style.display = 'none';
+        });
+    });
+
+    //gramas do cenario
+
+    //movimentação da gramas
+    const vertexShader = `
     varying vec2 vUv;
     uniform float time;
     
@@ -19,7 +843,10 @@ import*as e from"../build/three.module.js";import{GLTFLoader as t}from"../jsm/GL
         gl_Position = projectionMatrix * modelViewPosition;
 
         }
-    `,e3=`
+    `;
+    
+    //cor das gramas
+    const fragmentShader = `
     varying vec2 vUv;
     
     void main() {
@@ -27,4 +854,168 @@ import*as e from"../build/three.module.js";import{GLTFLoader as t}from"../jsm/GL
         float clarity = ( vUv.y * 0.35 ) + 0.00001;
         gl_FragColor = vec4( baseColor * clarity, 1 );
     }
-    `;leavesMaterial=new e.ShaderMaterial({vertexShader:e1,fragmentShader:e3,uniforms:{time:{value:0}},side:e.DoubleSide});let eg=new e.Object3D,e0=new e.PlaneGeometry(.01,.2,1);e0.translate(0,.01,0);let eP=new e.InstancedMesh(e0,leavesMaterial,16e4);scene.add(eP);for(let eE=0;eE<16e4;eE++)eg.position.set((Math.random()-.48)*13.5,0,(Math.random()-.58)*11.2),eg.scale.setScalar(.8+.8*Math.random()),eg.rotation.y=Math.random()*Math.PI,eg.updateMatrix(),eP.setMatrixAt(eE,eg.matrix);for(let eC=0;eC<6e4;eC++)eg.position.set((Math.random()-.56)*11.5,0,(Math.random()-2.85)*5.23),eg.scale.setScalar(.8+.8*Math.random()),eg.rotation.y=Math.random()*Math.PI,eg.updateMatrix(),eP.setMatrixAt(eC,eg.matrix);for(let eM=0;eM<1e4;eM++)eg.position.set((Math.random()- -4.6)*1.8,0,(Math.random()-2.8)*5.2),eg.scale.setScalar(.8+.8*Math.random()),eg.rotation.y=Math.random()*Math.PI,eg.updateMatrix(),eP.setMatrixAt(eM,eg.matrix);keysPressed={},document.addEventListener("keydown",e=>{e.shiftKey&&characterControls?characterControls.switchRunToggle():keysPressed[e.key.toLowerCase()]=!0},!1),document.addEventListener("keyup",e=>{keysPressed[e.key.toLowerCase()]=!1},!1),window.addEventListener("resize",function(){camera.aspect=this.window.innerWidth/this.window.innerHeight,camera.updateProjectionMatrix(),renderer.setSize(this.window.innerWidth,this.window.innerHeight),labelRenderer.setSize(this.window.innerWidth,this.window.innerHeight)}),window.innerWidth<768&&alert("Coloque em tela cheia e vire a tela do seu celular!!"),animate()}let clock=new e.Clock;function animate(){let e=clock.getDelta();characterControls&&characterControls.update(e,keysPressed),mixer&&mixer.update(e),mixer3&&mixer3.update(e),mixerCozinheiro&&mixerCozinheiro.update(e),mixergalinha&&mixergalinha.update(e),mixerPassaro&&mixerPassaro.update(e),mixerVaca&&mixerVaca.update(e),mixerseta&&mixerseta.update(e),mixerseta1&&mixerseta1.update(e),mixerseta2&&mixerseta2.update(e),orbitControls.update(),!0==andando?(galinha.position.x+=.005,galinha.position.x>=9&&(andando=!1,galinha.rotation.y=-1.5)):(galinha.position.x-=.005,galinha.position.x<=-9&&(andando=!0,galinha.rotation.y=1.5)),!0==andandoPassaro?(passaro.position.x+=.03,passaro.position.x>=100&&(andandoPassaro=!1,passaro.rotation.y=1.5)):(passaro.position.x-=.03,passaro.position.x<=-100&&(andandoPassaro=!0,passaro.rotation.y=-1.5)),leavesMaterial.uniforms.time.value=clock.getElapsedTime(),leavesMaterial.uniformsNeedUpdate=!0,labelRenderer.render(scene,camera),renderer.render(scene,camera),requestAnimationFrame(animate)}init();
+    `;
+
+    const uniforms = {
+        time: {
+            value: 0
+        }
+    }
+
+    leavesMaterial = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms,
+        side: THREE.DoubleSide
+    });
+
+    //quantidade de gramas
+    const instanceNumber = 160000;
+    const instanceNumber2 = 60000;
+    const instanceNumber3 = 10000;
+    const dummy = new THREE.Object3D();
+
+    const geometry = new THREE.PlaneGeometry( 0.01, 0.2, 1);
+    geometry.translate( 0, 0.01, 0 );
+    const instancedMesh = new THREE.InstancedMesh( geometry, leavesMaterial, instanceNumber );
+    scene.add( instancedMesh );
+
+    //colocando elas em lugares aleatorios
+    for ( let i=0 ; i<instanceNumber ; i++ ) {
+
+        dummy.position.set(
+            //posição X
+            ( Math.random() - 0.48 ) * 13.5,
+            //posição y
+            0,
+            //posição z
+            ( Math.random() - 0.58 ) * 11.2
+        );
+        
+        //scala(tamanho)
+        dummy.scale.setScalar( 0.8 + Math.random() * 0.8 );
+        
+        dummy.rotation.y = Math.random() * Math.PI;
+        
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt( i, dummy.matrix );
+    }
+
+    for ( let i=0 ; i<instanceNumber2 ; i++ ) {
+
+        dummy.position.set(
+            ( Math.random() - 0.56 ) * 11.5,
+            0,
+            ( Math.random() - 2.85 ) * 5.23
+        );
+        
+        dummy.scale.setScalar( 0.8 + Math.random() * 0.8 );
+        
+        dummy.rotation.y = Math.random() * Math.PI;
+        
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt( i, dummy.matrix );
+
+    }
+
+    for ( let i=0 ; i<instanceNumber3 ; i++ ) {
+
+        dummy.position.set(
+            ( Math.random() - -4.6 ) * 1.8,
+            0,
+            ( Math.random() - 2.8 ) * 5.2
+        );
+        
+        dummy.scale.setScalar( 0.8 + Math.random() * 0.8 );
+        
+        dummy.rotation.y = Math.random() * Math.PI;
+        
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt( i, dummy.matrix );
+
+    }
+
+    //eventos de tecla para controlar personagem
+    keysPressed = { }
+    document.addEventListener('keydown', (event) =>{
+        if(event.shiftKey && characterControls){
+            characterControls.switchRunToggle()
+        }else{
+            (keysPressed)[event.key.toLowerCase()] = true
+        }
+    }, false)
+
+    document.addEventListener('keyup', (event) =>{
+        (keysPressed)[event.key.toLowerCase()] = false
+    }, false)
+
+    //reponsividade
+    window.addEventListener('resize', function(){ 
+        camera.aspect = this.window.innerWidth / this.window.innerHeight
+        camera.updateProjectionMatrix()
+        renderer.setSize(this.window.innerWidth, this.window.innerHeight)
+        labelRenderer.setSize(this.window.innerWidth, this.window.innerHeight)
+    })
+
+    if(window.innerWidth < 768){
+        alert('Coloque em tela cheia e vire a tela do seu celular!!')
+    }
+    
+    animate();
+}
+
+const clock = new THREE.Clock()
+
+function animate() {
+    let mixerupdateDelta = clock.getDelta()
+        if(characterControls){
+            characterControls.update(mixerupdateDelta, keysPressed)
+        }
+        if (mixer) mixer.update(mixerupdateDelta);
+        if (mixer3) mixer3.update(mixerupdateDelta);
+        if (mixerCozinheiro) mixerCozinheiro.update(mixerupdateDelta);
+        if (mixergalinha) mixergalinha.update(mixerupdateDelta);
+        if (mixerPassaro) mixerPassaro.update(mixerupdateDelta);
+        if (mixerVaca) mixerVaca.update(mixerupdateDelta);
+        if (mixerseta) mixerseta.update(mixerupdateDelta);
+        if (mixerseta1) mixerseta1.update(mixerupdateDelta);
+        if (mixerseta2) mixerseta2.update(mixerupdateDelta);
+        orbitControls.update();
+
+    if(andando == true){
+        galinha.position.x += 0.005;
+        if(galinha.position.x >= 9){
+            andando = false
+            galinha.rotation.y = -1.5
+        }
+    }else{
+        galinha.position.x -= 0.005;
+        if(galinha.position.x <= -9){
+            andando = true
+            galinha.rotation.y = 1.5
+        }
+    }
+
+    if(andandoPassaro == true){
+        passaro.position.x += 0.03;
+        if(passaro.position.x >= 100){
+            andandoPassaro = false
+            passaro.rotation.y = 1.5
+        }
+    }else{
+        passaro.position.x -= 0.03;
+        if(passaro.position.x <= -100){
+            andandoPassaro = true
+            passaro.rotation.y = -1.5
+        }
+    }
+    
+    leavesMaterial.uniforms.time.value = clock.getElapsedTime();
+    leavesMaterial.uniformsNeedUpdate = true;
+    labelRenderer.render(scene, camera)
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+}
+init();
+
