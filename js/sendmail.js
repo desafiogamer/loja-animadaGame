@@ -1,13 +1,12 @@
-var nome = document.getElementById('nome').value
-var email = document.getElementById('email').value
-var telefone = document.getElementById('telefone').value
-var assunto = document.getElementById('assunto').value
-var menssagem = document.getElementById('menssagem').value
+var nome = document.getElementById('nome').textContent
+var email = document.getElementById('email').textContent
+var telefone = document.getElementById('telefone').textContent
+var assunto = document.getElementById('assunto').textContent
+var menssagem = document.getElementById('menssagem').textContent
 var btn = document.getElementById('envarMensagem')
 
-
 btn.addEventListener('click',()=>{
-    if(nome && email && telefone && assunto && menssagem){
+    
         Email.send({
             Host : "smtp.elasticemail.com",
             Username : "me2803390@gmail.com",
@@ -19,9 +18,7 @@ btn.addEventListener('click',()=>{
         }).then(
             message => alert(message)
         );
-    }else{
-        alert('Preencha os campos')
-    }
+    
 })
 
 
