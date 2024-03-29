@@ -696,7 +696,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 90%;
+    height: auto;
 }
 
 .input-field {
