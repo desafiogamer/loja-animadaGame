@@ -14,8 +14,8 @@ btn.addEventListener('click',()=>{
             Password : "60D37F3F9DCFCB84D6988D0BD93D76999C5C",
             To : 'joaopap1234@gmail.com',
             From : "me2803390@gmail.com",
-            Subject : `${nome}`,
-            Body : `assunto:${assunto} <br>\n Telefone: ${telefone} <br>\n Email: ${email}<br>\n${menssagem}`
+            Subject : `Chegou um email para voce`,
+            Body : `NOME:${nome} <br>\n ASSUNTO:${assunto} <br>\n TELEFONE: ${telefone} <br>\n EMAIL: ${email}<br>\n${menssagem}`
         }).then(
             message => alert(message)
         );
