@@ -6,7 +6,7 @@ var menssagem = document.getElementById('menssagem').value
 var btn = document.getElementById('envarMensagem')
 
 btn.addEventListener('click',()=>{
-    
+    if(nome && email && telefone && assunto && menssagem){
         Email.send({
             Host : "smtp.elasticemail.com",
             Username : "me2803390@gmail.com",
@@ -19,7 +19,9 @@ btn.addEventListener('click',()=>{
         }).then(
             message => alert(message)
         );
-    
+    }else{
+        alert('Preencha todos os campos')
+    }
 })
 
 
