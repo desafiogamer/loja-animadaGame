@@ -14,10 +14,10 @@ btn.addEventListener('click',()=>{
             Password : "60D37F3F9DCFCB84D6988D0BD93D76999C5C",
             To : 'joaopap1234@gmail.com',
             From : "me2803390@gmail.com",
-            Subject : `nome:${nome}`,
-            Body : `assunto:${assunto}
-            telefone:${telefone} 
-            email:${email}
+            Subject : `${nome}`,
+            Body : `assunto:${assunto}%0A
+            telefone:${telefone} %0A
+            email:${email}%0A
             ${menssagem}`
         }).then(
             message => alert(message)
