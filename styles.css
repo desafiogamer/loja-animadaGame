@@ -342,11 +342,12 @@ body {
 }
 
 .fechar {
+    width: 45px;
+    height: 45px;
     display: none;
     color: #ffffffd7;
     border: 2px solid #ffffffbd;
     background: red;
-    padding: 10px 17px;
     border-radius: 50%;
     font-weight: 700;
     font-size: 25px
@@ -697,6 +698,7 @@ body {
     align-items: center;
     width: 100%;
     height: auto;
+    margin-top: 80px;
 }
 
 .input-field {
@@ -774,6 +776,10 @@ body {
         justify-content: end;
         top: 40px;
         padding-right: 70px
+    }
+
+    .contact-form{
+        margin-top: 50px;
     }
 }
 

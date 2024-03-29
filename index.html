@@ -79,41 +79,37 @@
 		<div class="legumes">
 			<h1 class="title">Contate-me</h1>
 
-			<form id="contact-form" method="POST" action="https://formsubmit.co/me2803390@gmail.com"
-				enctype="multipart/form-data">
-				<input type="hidden" name="_captcha" value="false">
-				<input type="hidden" name="_next" value="https://loja-animada-game.vercel.app/">
-			
-				<div class="input-box">
-					<div class="input-field">
-						<input type="text" name="nome" placeholder="Nome completo" required>
+			<form id="contact-form" action="#">
+					<div class="input-box">
+						<div class="input-field">
+							<input type="text" name="nome" placeholder="Nome completo" id="nome" required>
+						</div>
+				
+						<div class="input-field">
+							<input type="email" name="email" placeholder="Endereço de email" id="email" required>
+						</div>
 					</div>
-			
-					<div class="input-field">
-						<input type="email" name="email" placeholder="Endereço de email" required>
+				
+					<div class="input-box">
+						<div class="input-field">
+							<input type="text" name="telefone" placeholder="Numero de telefone" id="telefone" required>
+						</div>
+				
+						<div class="input-field">
+							<input type="text" name="assunto_email" placeholder="Assunto do email" id="assunto" required>
+						</div>
 					</div>
-				</div>
-			
-				<div class="input-box">
-					<div class="input-field">
-						<input type="text" name="telefone" placeholder="Numero de telefone" required>
+				
+					<div class="textarea-field">
+						<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" id="menssagem" required></textarea>
 					</div>
-			
-					<div class="input-field">
-						<input type="text" name="assunto_email" placeholder="Assunto do email" required>
+				
+					<div class="btn">
+						<button id="envarMensagem">
+							<span class="texto">Enviar</span>
+							<span class="logo-enviar"><i class="bi bi-arrow-right"></i></span>
+						</button>
 					</div>
-				</div>
-			
-				<div class="textarea-field">
-					<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" required></textarea>
-				</div>
-			
-				<div class="btn">
-					<button type="submit">
-						<span class="texto">Enviar</span>
-						<span class="logo-enviar"><i class="bi bi-arrow-right"></i></span>
-					</button>
-				</div>
 			</form>
 		</div>
 		<div class="btnfechar">
@@ -137,6 +133,9 @@
             }
         }
     </script>
+	<script src="https://smtpjs.com/v3/smtp.js">
+	</script>
+	<script src="./js/sendmail.js"></script>
 	<script src="./js/script.js" type="module"></script>
 	<script src="./js/lista-produtos.js" type="module"></script>
 	<script src="js/index.js"></script>
