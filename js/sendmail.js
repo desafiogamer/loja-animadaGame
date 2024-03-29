@@ -15,7 +15,7 @@ btn.addEventListener('click',()=>{
             To : 'joaopap1234@gmail.com',
             From : "me2803390@gmail.com",
             Subject : `${nome}`,
-            Body : `assunto:${assunto} \n\n Telefone: ${telefone} \n\n Email: ${email}\n\n${menssagem}`
+            Body : `assunto:${assunto} <br>\n Telefone: ${telefone} <br>\n Email: ${email}<br>\n${menssagem}`
         }).then(
             message => alert(message)
         );
