@@ -465,7 +465,7 @@ body {
 }
 
 .bebidas,
-.legumes,
+.contatar,
 .pratosProntos {
     pointer-events: all;
     background: #000000e3;
@@ -480,7 +480,7 @@ body {
 }
 
 .bebidas.ativo,
-.legumes.ativo,
+.contatar.ativo,
 .pratosProntos.ativo {
     display: block
 }
@@ -906,7 +906,7 @@ body {
     }
 
     .bebidas,
-    .legumes,
+    .contatar,
     .pratosProntos {
         border-radius: 0;
         padding: 10px;
