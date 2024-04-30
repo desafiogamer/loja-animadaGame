@@ -8,18 +8,22 @@
 	<meta name="Keywords" content="vercel,joao vitor,threejs, three-js,programação,css,html,javascript,python,js,php,acessar,algoritmo,algoritmos,ambiente digital,ambientes virtuais,animações,animações,digitais,aplicativo,avanços tecnológicos">
 	<meta name="robots" content="index,follow">
 	<title>E-commerce | Game</title>
+	
 	<link rel="shortcut icon" type="image/jpg" href="./img/logo.png" />
 	<link rel="stylesheet" href="styles.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	
 	<script src="js/preloader.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r130/three.min.js"></script>
 </head>
 <body>
+	<!--Pre loader antes do site carregar-->
 	<div id="preloader">
 		<div id="loader"></div>
 		<div id="percentage">0%</div>
 	</div>
 
+	<!--para arrumar as config do jogo, qualidade, som e tela cheia-->
 	<div class="arrumarConfig">
 		<img src="./img/engrenagem.png" alt="config">
 	</div>
@@ -44,19 +48,23 @@
 		</div>
 	</div>
 
+	<!--Tela preta que pisca ao trocar do dia para noite-->
 	<div class="blink" id="screen"></div>
 
+	<!--Aqui esta o joystick para mobile-->
 	<div id="joystick">
 		<div id="stick"></div>
 	</div>
 
+	<!--Carrinho de compra-->
 	<div class="car-shop" onclick="carrinho()">
 		<i class="bi bi-basket"></i>
 		<span class="quantity" id="cart-plus">0</span>
 	</div>
 
 	<section class="iphones" id="iphones">
-		
+
+		<!--Aqui esta a div onde os pratos pronto ficam, importo eles atraves de um array de objetos no javascript-->
 		<div class="pratosProntos">
 			<h1 class="title">Lanches</h1>
 			
@@ -65,7 +73,8 @@
 		<div class="btnfechar">
 			<button class="fechar" id="fechar1">X</button>
 		</div>
-		
+
+		<!--Aqui esta a div onde as bebidas ficam, importo eles atraves de um array de objetos no javascript-->
 		<div class="bebidas">
 			<h1 class="title">Bebidas</h1>
 			<div class="Mac" id="Mac"></div>
@@ -73,47 +82,50 @@
 		<div class="btnfechar">
 			<button class="fechar" id="fechar2">X</button>
 		</div>
-		
+
+
+		<!--Aqui esta o formulario para contato, ele funciona atraves de uma api que faço a requisição pelo JS-->
 		<div class="contatar">
 			<h1 class="title">Contate-me</h1>
 
 			<form id="contact-form" action="#">
-					<div class="input-box">
-						<div class="input-field">
-							<input type="text" name="nome" placeholder="Nome completo" id="nome" required>
-						</div>
-				
-						<div class="input-field">
-							<input type="email" name="email" placeholder="Endereço de email" id="email" required>
-						</div>
+				<div class="input-box">
+					<div class="input-field">
+						<input type="text" name="nome" placeholder="Nome completo" id="nome" required>
 					</div>
 				
-					<div class="input-box">
-						<div class="input-field">
-							<input type="text" name="telefone" placeholder="Numero de telefone" id="telefone" required>
-						</div>
+					<div class="input-field">
+						<input type="email" name="email" placeholder="Endereço de email" id="email" required>
+					</div>
+				</div>
 				
-						<div class="input-field">
-							<input type="text" name="assunto_email" placeholder="Assunto do email" id="assunto" required>
-						</div>
+				<div class="input-box">
+					<div class="input-field">
+						<input type="text" name="telefone" placeholder="Numero de telefone" id="telefone" required>
 					</div>
 				
-					<div class="textarea-field">
-						<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" id="menssagem" required></textarea>
+					<div class="input-field">
+						<input type="text" name="assunto_email" placeholder="Assunto do email" id="assunto" required>
 					</div>
+				</div>
 				
-					<div class="btn">
-						<button id="envarMensagem">
-							<span class="texto">Enviar</span>
-							<span class="logo-enviar"><i class="bi bi-arrow-right"></i></span>
-						</button>
-					</div>
+				<div class="textarea-field">
+					<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" id="menssagem" required></textarea>
+				</div>
+				
+				<div class="btn">
+					<button id="envarMensagem">
+						<span class="texto">Enviar</span>
+						<span class="logo-enviar"><i class="bi bi-arrow-right"></i></span>
+					</button>
+				</div>
 			</form>
 		</div>
 		<div class="btnfechar">
 			<button class="fechar" id="fechar3">X</button>
 		</div>
-	
+
+		<!--Aqui ficara os item que voce colocou no carrinho-->
 		<div class="Comprados" id="Comprados">
 			<div id="table-body"></div>
 			<div class="totalItens">
@@ -123,18 +135,27 @@
 			<button class="btnFinal">Finalizar</button>
 		</div>
 	</section>
-	
+
+	<!--Neste projeto utilizei o arquivo minificado do three js, aqui esta um importmap do arquivo three js para a biblioteca funcione corretamente com suas importações-->
 	<script type="importmap">
-        {
-            "imports": {
-                "three": "../build/three.module.js"
-            }
-        }
-    </script>
+        	{
+	            	"imports": {
+	               		 "three": "../build/three.module.js"
+	            	}
+        	}
+    	</script>
+
+	<!--Aqui esta o script responsavél pelo envio de email(API)-->
 	<script src="https://smtpjs.com/v3/smtp.js"></script>
 	<script src="./js/sendmail.js"></script>
+	
+	<!--Aqui está o script principal onde está toda logica por trás do jogo/e-commerce-->
 	<script src="./js/script.js" type="module"></script>
+
+	<!--Aqui está a lista de produtos onde exporto para  o script principal-->
 	<script src="./js/lista-produtos.js" type="module"></script>
+
+	<!--Aqui está o script do joystick, posso deixar ele separado do arquivo principal do jogo, pois ele apenas emula uma tecla sendo precionada do teclado-->
 	<script src="js/joystick.js"></script>
 </body>
 </html>
