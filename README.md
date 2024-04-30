@@ -2,3 +2,7 @@
 
 
 Fiz um e-commerce utilizando a biblioteca de java script(three js), onde deixo o site totalmente interativo e 3D, como estou bastante focado nos estudos de three js resolvi me desafiar a criar algo complexo utilizando ele e bom...Foi isso que consegui fazer, documentei todo o arquivo principal,espero que goste.
+
+<div align='center'>
+  <img src='https://github.com/desafiogamer/loja-animadaGame/issues/1#issue-2270335822'/>
+</div>
