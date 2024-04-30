@@ -5,6 +5,4 @@ Fiz um e-commerce utilizando a biblioteca de java script(three js), onde deixo o
 
 Aqui esta o deploy para voce conferir: <a href="https://loja-animada-game.vercel.app/" target="_blank">Link do projeto</a>
 
-<div align='center'>
- ![GameVenda-min](https://github.com/desafiogamer/loja-animadaGame/assets/145628900/ba4b3462-1352-4453-a272-21029d3d1ccc)
-</div>
+![GameVenda-min](https://github.com/desafiogamer/loja-animadaGame/assets/145628900/ba4b3462-1352-4453-a272-21029d3d1ccc)
