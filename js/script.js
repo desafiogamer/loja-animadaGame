@@ -5,7 +5,46 @@ import {OrbitControls} from '../jsm/OrbitControls.js';
 import {CSS2DRenderer, CSS2DObject} from '../jsm/CSS2DRenderer.js'
 
 
-let scene,camera,renderer,model,characterControls,orbitControls,keysPressed,labelRenderer,mixer,mixerseta,mixerseta1,mixerseta2, mixer3,mixerCozinheiro,mixergalinha,mixerPassaro,mixerVaca,rainGeo,rain,rainDrop,cloudGeo,rainCount = 3000,clouds = [],leavesMaterial,andando = true,andandoPassaro = true,girando = true,flutuando = true,galinha,passaro,floorParedefrontal,floorParedefrontal1,floorParedefrontal2,floorParedefrontal3,mudardisplayBaixo,mudardisplayAlto,aviao,decolando = false,somAviao
+let scene,
+  camera,
+  renderer,
+  model,
+  characterControls,
+  orbitControls,
+  keysPressed,
+  labelRenderer,
+  mixer,
+  mixerseta,
+  mixerseta1,
+  mixerseta2, 
+  mixer3,
+  mixerCozinheiro,
+  mixergalinha,
+  mixerPassaro,
+  mixerVaca,
+  rainGeo,
+  rain,
+  rainDrop,
+  cloudGeo,
+  rainCount = 3000,
+  clouds = [],
+  leavesMaterial,
+  andando = true,
+  andandoPassaro = true,
+  girando = true,
+  flutuando = true,
+  galinha,
+  passaro,
+  floorParedefrontal,
+  floorParedefrontal1,
+  floorParedefrontal2,
+  floorParedefrontal3,
+  mudardisplayBaixo,
+  mudardisplayAlto,
+  aviao,
+  decolando = false,
+  somAviao
+
 function init() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(
