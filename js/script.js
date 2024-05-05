@@ -4,7 +4,7 @@ import { CharacterControls } from './charaterControls.js';
 import {OrbitControls} from '../jsm/OrbitControls.js';
 import {CSS2DRenderer, CSS2DObject} from '../jsm/CSS2DRenderer.js'
 
-
+//variaveis globais
 let scene,
   camera,
   renderer,
@@ -46,28 +46,40 @@ let scene,
   somAviao
 
 function init() {
+  //criando a cena
   scene = new THREE.Scene();
+
+  //criando a camera
   camera = new THREE.PerspectiveCamera(
     50,
     window.innerWidth / window.innerHeight,
     0.1,
     200
   );
+  //posição da camera
   camera.position.z = 1;
   camera.rotation.x = 1.16;
   camera.rotation.z = 0.27;
 
-  //renderer
+  //renderizador WebGl
   renderer = new THREE.WebGLRenderer({
     antialias: true,
   });
+  
+  //cor do background da cena
   scene.fog = new THREE.FogExp2(0x87ceeb, 0.002);
   renderer.setClearColor(scene.fog.color);
+  
+  //definindo o tamanho do renderizador
   renderer.setSize(window.innerWidth, window.innerHeight);
+  
+  //ativando sombra
   renderer.shadowMap.enabled = true;
-
+  
+  //adicionando o renderizador no body
   document.body.appendChild(renderer.domElement);
 
+  //uma ferramenta do three para usar tags HTML na sua cena 3D
   labelRenderer = new CSS2DRenderer();
   labelRenderer.setSize(window.innerWidth, window.innerHeight);
   labelRenderer.domElement.style.position = "absolute";
@@ -88,7 +100,7 @@ function init() {
     side: THREE.DoubleSide,
   });
 
-  //cercas frontal
+  //gerando as cercas e suas posiçoẽs LARGURA, ESPESSURA, X, Y, Z
   cerca(20, 1, 0, 0.5, -14.9, 0);
   cerca2(20, 1, 10, 0.5, -5, -Math.PI / 2);
   cerca3(20, 1, -10, 0.5, -5, +Math.PI / 2);
@@ -138,7 +150,7 @@ function init() {
     scene.add(floorParedefrontal3);
   }
 
-  //texturas da paredes
+  //gerando as estradas e suas posiçoẽs LARGURA, ESPESSURA, X, Y, Z
   generateFloor();
   generateEstrada(5, 18, -8, 0.001, -6, 0);
   generateEstrada(5, 16.6, 1.7, 0.002, -8, 1.6);
@@ -241,12 +253,14 @@ function init() {
   const btnPararSom = document.getElementById("paraTrilha");
   const btnAtivarSom = document.getElementById("ativarTrilha");
 
+  //função para desativar trilha sonora
   btnPararSom.addEventListener("click", () => {
     trilha.stop();
     btnPararSom.style.display = "none";
     btnAtivarSom.style.display = "block";
   });
 
+  //função para ativar trilha sonora
   btnAtivarSom.addEventListener("click", () => {
     trilha.play();
     btnPararSom.style.display = "block";
@@ -254,25 +268,29 @@ function init() {
   });
 
   //botao das config
+  //ao clicar no botão das config ativa o som de click
   document.querySelector(".arrumarConfig").addEventListener("click", () => {
     click2.play();
   });
 
-  //Botão para dormir
+  //Criando botão para mudar o clima pra noite
   const btnMudarClimaNoite = document.createElement("button");
   btnMudarClimaNoite.textContent = "Noite";
   btnMudarClimaNoite.setAttribute("id", "noite");
 
+  //Criando botão para mudar o clima pra dia
   const btnMudarClimaDia = document.createElement("button");
   btnMudarClimaDia.textContent = "Dia";
   btnMudarClimaDia.setAttribute("id", "dia");
   btnMudarClimaDia.style.display = "none";
 
+  //a div aonde ficara o botão de mudar para dia e noite
   const divMudarClimaNoite = document.createElement("div");
   divMudarClimaNoite.setAttribute("id", "home");
   divMudarClimaNoite.appendChild(btnMudarClimaNoite);
   divMudarClimaNoite.appendChild(btnMudarClimaDia);
 
+  //adicionando essa div na cena e colocando a posição dela
   const cPointLabel2 = new CSS2DObject(divMudarClimaNoite);
   scene.add(cPointLabel2);
   cPointLabel2.position.set(-7.5, 1.5, -2);
@@ -290,11 +308,12 @@ function init() {
   scene.add(divNaCena);
   divNaCena.position.set(9, 2, -3);
 
-  //pratos prontos
+  //aqui seleciono as divs do html aond ficará os produtos
   var pratosProntos = document.querySelector(".pratosProntos");
   var pratosLegumes = document.querySelector(".contatar");
   var bebidas = document.querySelector(".bebidas");
 
+  //fiz um botão para fechar cada uma dessas divs
   var btnfechar1 = document.querySelector("#fechar1");
   var btnfechar2 = document.querySelector("#fechar2");
   var btnfechar3 = document.querySelector("#fechar3");
@@ -314,7 +333,7 @@ function init() {
     click.play();
   });
 
-  //ativar avião
+  //aqui faço o botão para ativar a animação do avião
   var btnAviao = document.createElement("button");
   btnAviao.setAttribute("class", "btnAvião");
   btnAviao.textContent = "Decolar";
@@ -325,6 +344,8 @@ function init() {
   function removerdacena() {
     scene.remove(aviao);
   }
+
+  //depois do click ativara o som do avião e a animação, depois de 10segundos o avião vai desaparecer da cena
   btnAviao.addEventListener("click", () => {
     decolando = true;
     somAviao.play();
@@ -333,7 +354,7 @@ function init() {
     setTimeout(removerdacena, 10000);
   });
 
-  //portais para entrar nas sessões
+  //aqui estou criando aqueles circulos no chão para entrar nas sessões dos produtos
   const geometryPortal1 = new THREE.CircleGeometry(0.4, 32);
   const materialportal1 = new THREE.MeshPhongMaterial({
     color: 0x00ff00,
@@ -398,10 +419,14 @@ function init() {
   //local dos modelos 3D
   const loader = new GLTFLoader().setPath("./models/");
 
-  //personagem controlado
+  //aqui estou pegando a posição atual do modelo
   var characterPreviousPosition = new THREE.Vector3();
+
+  //carregando o modelo
   loader.load("personagem.glb", function (glft) {
     model = glft.scene;
+
+    //definindo o tamanho do personagem
     model.scale.set(0.25, 0.25, 0.25);
 
     //sombra do personagem
@@ -437,6 +462,7 @@ function init() {
         characterControls.model
       );
 
+      //objetos que colidem
       const objectsBoundingBoxes = [
         new THREE.Box3().setFromObject(fogueira),
         new THREE.Box3().setFromObject(cozinheiro),
@@ -458,6 +484,7 @@ function init() {
       var colisionPortal2 = new THREE.Box3().setFromObject(portal2);
       var colisionPortal3 = new THREE.Box3().setFromObject(portal3);
 
+      //ao modelo no personagem entrar na area de qualquer desse modelo ativara a colisão e o personagem voltara pra ultima posição antes de colidir
       objectsBoundingBoxes.forEach((objectBoundingBox) => {
         if (characterBoundingBox.intersectsBox(objectBoundingBox)) {
           collided = true;
@@ -497,6 +524,8 @@ function init() {
     checkCollisions();
   });
 
+  //adicionando alguns modelos na cena
+  
   //passaro
   passaro = new THREE.Object3D();
   loader.load("birds.glb", function (glft) {
@@ -766,7 +795,7 @@ function init() {
     scene.add(seta2);
   });
 
-  //luzes da cena de dia
+  //montando a ambientação do dia com luzes claras na cena
   var luzAmbientedia = new THREE.AmbientLight(0xffffff, 0.7);
   const dirLight = new THREE.DirectionalLight(0xfcffd6, 1);
   dirLight.position.set(50, 30, -50);
@@ -781,9 +810,10 @@ function init() {
   dirLight.shadow.mapSize.height = 4096;
   scene.add(dirLight);
   scene.add(luzAmbientedia);
+  //isso ajuda a ver a posição que esta vindo a luz
   // scene.add( new THREE.CameraHelper(dirLight.shadow.camera))
 
-  //luzes da cena a noite
+  //montando a ambientação da noite com luzes escuras na cena
   var LuzAmbienteNoite = new THREE.AmbientLight(0x929292, 1);
   const dirLight2 = new THREE.DirectionalLight(0xaff3ff, 1);
   dirLight2.position.set(50, 30, -100);
@@ -797,7 +827,7 @@ function init() {
   dirLight2.shadow.mapSize.width = 4096;
   dirLight2.shadow.mapSize.height = 4096;
 
-  //pontos de luzes
+  //pontos especificos de luzes
   const flash = new THREE.PointLight(0xfcfc72, 10, 10, 1);
   flash.position.set(9.5, 2, -13);
 
@@ -819,10 +849,11 @@ function init() {
   flash6.position.set(-7.5, 0.01, -13);
   scene.add(flash6);
 
-  //tela preta
+  //tela preta para esconder carregamento da noite/dia
   const screen = document.getElementById("screen");
 
   //mudar para grafico suave
+  //para reduzir os graficos eu tiro algumas gramas, passaros, pontos de luzes, sombras
   var modoSuave = false;
   mudardisplayBaixo = document.querySelector(".display");
   mudardisplayAlto = document.getElementById("adicionar");
@@ -864,10 +895,12 @@ function init() {
     });
   });
 
-  //estrelas
+  //estrelas da cena(noite)
   let positions = [];
   let sizes = [];
 
+  //fazendo a geometria das estrelas
+  //pegando a quantidade que tem e colocando elas em posições diferente na cena de acordo com a distancia maxima que definimos lá em cima na camera
   rainGeo = new THREE.BufferGeometry();
   for (let i = 0; i < rainCount; i++) {
     rainDrop = new THREE.Vector3(
@@ -889,6 +922,8 @@ function init() {
     "size",
     new THREE.BufferAttribute(new Float32Array(sizes), 1)
   );
+
+  //tamanho e cores das estrelas
   let rainMaterial = new THREE.PointsMaterial({
     color: 0xdbfcfd,
     size: 0.2,
@@ -896,7 +931,7 @@ function init() {
   });
   rain = new THREE.Points(rainGeo, rainMaterial);
 
-  //função para mudar noite
+  //função para mudar noite, adiciono as luzes que fizemos mais acima e removo as luzes claras
   btnMudarClimaNoite.addEventListener("click", function () {
     screen.addEventListener("animationend", function () {
       this.style.display = "none";
@@ -932,7 +967,7 @@ function init() {
     click2.play();
   });
 
-  //função para mudar dia
+  //função para mudar dia, aqui adiciono as luzes claras e removo as escuras
   btnMudarClimaDia.addEventListener("click", function () {
     scene.fog = new THREE.FogExp2(0x83bdff, 0.002);
     renderer.setClearColor(scene.fog.color);
@@ -970,7 +1005,7 @@ function init() {
 
   //gramas do cenario
 
-  //movimentação da gramas
+  //aqui faço a animação de movimento das cameras
   const vertexShader = `
     varying vec2 vUv;
     uniform float time;
@@ -1024,6 +1059,7 @@ function init() {
   const instanceNumber3 = 10000;
   const dummy = new THREE.Object3D();
 
+  //geometria das gramas
   const geometry = new THREE.PlaneGeometry(0.01, 0.2, 1);
   geometry.translate(0, 0.01, 0);
   const instancedMesh = new THREE.InstancedMesh(
@@ -1125,6 +1161,8 @@ function init() {
 //para animações funcionar
 const clock = new THREE.Clock()
 
+
+//aqui aonde as animações e a cena atualizam a todo instantes, mantendo a fluides 
 function animate() {
     //para a atualizações de cada frame das animações
     let mixerupdateDelta = clock.getDelta()
